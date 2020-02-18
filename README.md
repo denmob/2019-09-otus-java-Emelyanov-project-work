@@ -1,2 +1,2 @@
-# 2019-09-otus-java-Emelyanov_project_work
+# 2019-09-otus-java-Emelyanov-project-work
 Проектная работа. Тема: Сервис для генерации временных паролей с использованием телеграм бота.
