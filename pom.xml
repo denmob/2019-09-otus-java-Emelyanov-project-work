@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>otus-pw</groupId>
+    <artifactId>otus-java</artifactId>
+    <version>2019-09-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>TS4BuildOTP</name>
+
+    <modules>
+        <module>telegramService</module>
+        <module>webOTPService</module>
+    </modules>
+
+    <developers>
+        <developer>
+            <name>Emelyanov Denis</name>
+        </developer>
+    </developers>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.4.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <java>11</java>
+        <maven.compiler.source>${java}</maven.compiler.source>
+        <maven.compiler.target>${java}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
+        <gson.version>2.8.5</gson.version>
+        <logback.version>1.2.3</logback.version>
+        <slf4j.version>1.7.26</slf4j.version>
+        <spring-data-mongodb.version>2.0.5.RELEASE</spring-data-mongodb.version>
+        <mongo-java-driver.version>3.12.1</mongo-java-driver.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>${mongo-java-driver.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

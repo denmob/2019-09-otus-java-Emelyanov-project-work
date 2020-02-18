@@ -1,0 +1,10 @@
+db:
+    mongoDBHost: 127.0.0.1
+    mongoDBName: pw01
+
+telegram:
+    botToken: 947622852:AAGhKz4UeSKubfTR0HCbW-cGwXqDjYKirT0
+    botName: build_otp_bot
+    registrationButton: Register user data
+    generateOTPButton: Generate OTP
+
