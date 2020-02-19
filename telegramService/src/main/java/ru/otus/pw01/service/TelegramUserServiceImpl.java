@@ -19,12 +19,12 @@ public class TelegramUserServiceImpl implements TelegramUserService {
     /**
      * Searches TelegramUser by  telegramUserId in DB
      *
-     * @param telegramUserId - telegramUserId
+     * @param userID - telegramUserId
      * @return - instance of TelegramUser or null
      */
     @Override
-    public TelegramUser findUserByTelegramUserId(Long telegramUserId) {
-        return telegramUserRepository.findByTelegramUserId(telegramUserId);
+    public TelegramUser findUserByUserID(Long userID) {
+        return telegramUserRepository.findByUserID(userID);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class TelegramUserServiceImpl implements TelegramUserService {
     @Transactional
     public void saveUserIfNotExist(TelegramUser userToSave) {
         logger.debug("saveUserIfNotExist userToSave={}",userToSave);
-        TelegramUser foundUser = findUserByTelegramUserId(userToSave.getTelegramUserId());
+        TelegramUser foundUser = findUserByUserID(userToSave.getUserID());
         if (foundUser == null) {
             logger.debug("User not found. userToSave={} ", userToSave);
             telegramUserRepository.save(userToSave);

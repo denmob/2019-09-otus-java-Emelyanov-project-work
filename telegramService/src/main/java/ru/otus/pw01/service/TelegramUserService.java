@@ -8,10 +8,10 @@ public interface TelegramUserService {
     /**
      * Searches TelegramUser by  telegramUserId in DB
      *
-     * @param telegramUserId - telegramUserId
+     * @param userID - telegramUserId
      * @return - instance of TelegramUser or null
      */
-    TelegramUser findUserByTelegramUserId(Long telegramUserId);
+    TelegramUser findUserByUserID(Long userID);
 
     /**
      * Searches TelegramUser by  phoneNumber in DB

@@ -10,14 +10,6 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("settings.yml")
 public class TelegramConfig {
 
-    public String getRegistrationButton() {
-        return registrationButton;
-    }
-
-    public String getGenerateOTPButton() {
-        return generateOTPButton;
-    }
-
     public String getBotToken() {
         return botToken;
     }
@@ -26,17 +18,42 @@ public class TelegramConfig {
         return botName;
     }
 
-    @Value("${registrationButton}")
-    private String registrationButton;
+    @Value("${registrationChatMessage}")
+    private String registrationChatMessage;
 
-    @Value("${generateOTPButton}")
-    private String generateOTPButton;
+    @Value("${registrationButtonText}")
+    private String registrationButtonText;
+
+    @Value("${generateOTPChatMessage}")
+    private String generateOTPChatMessage;
+
+    @Value("${generateOTPButtonText}")
+    private String generateOTPButtonText;
 
     @Value("${botToken}")
     private String botToken;
 
     @Value("${botName}")
     private String botName;
+
+
+    public String getRegistrationChatMessage() {
+        return registrationChatMessage;
+    }
+
+    public String getRegistrationButtonText() {
+        return registrationButtonText;
+    }
+
+    public String getGenerateOTPChatMessage() {
+        return generateOTPChatMessage;
+    }
+
+
+    public String getGenerateOTPButtonText() {
+        return generateOTPButtonText;
+    }
+
 
 
 }

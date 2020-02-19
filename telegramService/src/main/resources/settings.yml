@@ -5,6 +5,8 @@ db:
 telegram:
     botToken: 947622852:AAGhKz4UeSKubfTR0HCbW-cGwXqDjYKirT0
     botName: build_otp_bot
-    registrationButton: Register user data
-    generateOTPButton: Generate OTP
+    registrationChatMessage: "Hello! Please send your contact for registration to service"
+    registrationButtonText: Send contact data
+    generateOTPChatMessage: "Press a button to generate the next OTP"
+    generateOTPButtonText: Generate one-time password
 
