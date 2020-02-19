@@ -7,6 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ConfigurationProperties("telegram")
+@PropertySource("settings.yml")
 public class TelegramConfig {
 
     public String getBotToken() {

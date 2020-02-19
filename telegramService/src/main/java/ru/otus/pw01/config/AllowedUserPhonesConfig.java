@@ -7,6 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ConfigurationProperties(prefix="db.phones")
+@PropertySource("settings.yml")
 public class AllowedUserPhonesConfig {
 
     @Value("${allowUserPhoneNumber1}")
