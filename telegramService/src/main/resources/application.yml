@@ -1,6 +1,10 @@
 db:
     mongoDBHost: 127.0.0.1
     mongoDBName: pw01
+    phones:
+        allowUserPhoneNumber1: +38093718891
+        allowUserPhoneNumber2: xxxxxxxxxxxx
+        allowUserPhoneNumber3: xxxxxxxxxxxx
 
 telegram:
     botToken: 947622852:AAGhKz4UeSKubfTR0HCbW-cGwXqDjYKirT0
@@ -9,4 +13,6 @@ telegram:
     registrationButtonText: Send contact data
     generateOTPChatMessage: "Press a button to generate the next OTP"
     generateOTPButtonText: Generate one-time password
+
+
 

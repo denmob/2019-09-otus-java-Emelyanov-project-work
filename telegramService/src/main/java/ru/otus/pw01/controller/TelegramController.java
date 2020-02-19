@@ -37,7 +37,6 @@ public class TelegramController extends TelegramLongPollingBot {
         this.configTelegram = configTelegram;
     }
 
-
     @PostConstruct
     public void registerBot() {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
@@ -47,7 +46,6 @@ public class TelegramController extends TelegramLongPollingBot {
             logger.error("registerBot TelegramApiException", e);
         }
     }
-
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -197,6 +195,4 @@ public class TelegramController extends TelegramLongPollingBot {
             saveContact(contact,sender);
         }
     }
-
-
 }

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ConfigurationProperties("telegram")
-@PropertySource("settings.yml")
 public class TelegramConfig {
 
     public String getBotToken() {
@@ -36,7 +35,6 @@ public class TelegramConfig {
     @Value("${botName}")
     private String botName;
 
-
     public String getRegistrationChatMessage() {
         return registrationChatMessage;
     }
@@ -53,7 +51,4 @@ public class TelegramConfig {
     public String getGenerateOTPButtonText() {
         return generateOTPButtonText;
     }
-
-
-
 }

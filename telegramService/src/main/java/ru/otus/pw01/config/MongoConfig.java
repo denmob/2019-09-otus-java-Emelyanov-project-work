@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
 @ConfigurationProperties(prefix="db")
-@PropertySource("settings.yml")
 public class MongoConfig extends AbstractMongoConfiguration {
 
     @Value("${mongoDBHost}")
