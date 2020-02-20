@@ -30,11 +30,25 @@ public class TelegramConfig {
     @Value("${generateOTPButtonText}")
     private String generateOTPButtonText;
 
+    @Value("${messageWaitOTP}")
+    private String messageWaitOTP;
+
+    @Value("${messageNotAllowedPhoneNumber}")
+    private String messageNotAllowedPhoneNumber;
+
     @Value("${botToken}")
     private String botToken;
 
     @Value("${botName}")
     private String botName;
+
+    public String getMessageWaitOTP() {
+        return messageWaitOTP;
+    }
+
+    public String getMessageNotAllowedPhoneNumber() {
+        return messageNotAllowedPhoneNumber;
+    }
 
     public String getRegistrationChatMessage() {
         return registrationChatMessage;
@@ -47,7 +61,6 @@ public class TelegramConfig {
     public String getGenerateOTPChatMessage() {
         return generateOTPChatMessage;
     }
-
 
     public String getGenerateOTPButtonText() {
         return generateOTPButtonText;

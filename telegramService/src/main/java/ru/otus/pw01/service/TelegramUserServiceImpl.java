@@ -13,8 +13,11 @@ public class TelegramUserServiceImpl implements TelegramUserService {
 
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(TelegramUserServiceImpl.class);
 
-    @Autowired
-    private TelegramUserRepository telegramUserRepository;
+    private final TelegramUserRepository telegramUserRepository;
+
+    public TelegramUserServiceImpl(TelegramUserRepository telegramUserRepository) {
+        this.telegramUserRepository = telegramUserRepository;
+    }
 
     /**
      * Searches TelegramUser by  telegramUserId in DB
@@ -24,12 +27,12 @@ public class TelegramUserServiceImpl implements TelegramUserService {
      */
     @Override
     public TelegramUser findUserByUserID(Long userID) {
-        return telegramUserRepository.findByUserID(userID);
+        return telegramUserRepository.findTelegramUserByUserId(userID);
     }
 
     @Override
     public TelegramUser findUserByPhoneNumber(String phoneNumber) {
-        return telegramUserRepository.findByPhoneNumber(phoneNumber);
+        return telegramUserRepository.findTelegramUserByPhoneNumber(phoneNumber);
     }
 
     /**
@@ -41,7 +44,7 @@ public class TelegramUserServiceImpl implements TelegramUserService {
     @Transactional
     public void saveUserIfNotExist(TelegramUser userToSave) {
         logger.debug("saveUserIfNotExist userToSave={}",userToSave);
-        TelegramUser foundUser = findUserByUserID(userToSave.getUserID());
+        TelegramUser foundUser = findUserByUserID(userToSave.getUserId());
         if (foundUser == null) {
             logger.debug("User not found. userToSave={} ", userToSave);
             telegramUserRepository.save(userToSave);

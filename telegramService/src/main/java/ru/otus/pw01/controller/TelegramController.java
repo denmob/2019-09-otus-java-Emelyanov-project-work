@@ -16,7 +16,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.otus.pw01.config.TelegramConfig;
-import ru.otus.pw01.model.ButtonType;
+import ru.otus.pw01.model.AllowedUser;
+import ru.otus.pw01.service.AllowedUserService;
+import ru.otus.pw01.service.ButtonType;
 import ru.otus.pw01.model.TelegramUser;
 import ru.otus.pw01.service.TelegramUserService;
 
@@ -31,10 +33,12 @@ public class TelegramController extends TelegramLongPollingBot {
 
     private final TelegramConfig configTelegram;
     private final TelegramUserService telegramUserService;
+    private final AllowedUserService allowedUserService;
 
-    public TelegramController(TelegramUserService telegramUserService, TelegramConfig configTelegram) {
+    public TelegramController(TelegramUserService telegramUserService, TelegramConfig configTelegram, AllowedUserService allowedUserService) {
         this.telegramUserService = telegramUserService;
         this.configTelegram = configTelegram;
+        this.allowedUserService = allowedUserService;
     }
 
     @PostConstruct
@@ -59,17 +63,20 @@ public class TelegramController extends TelegramLongPollingBot {
         }
 
         if (receivedMessageText != null && receivedMessageText.equals(configTelegram.getGenerateOTPButtonText())) {
-            //send message to webOTPService
-            logger.debug("to do send message to webOTPService");
-            SendMessage message = new SendMessage(chatId, "Wait for receive one-time password (response time ~1 min)");
-            sendToUser(message, chatId, "responseText");
+            SendMessage message = new SendMessage(chatId, configTelegram.getMessageWaitOTP());
+            sendToUser(message);
             return;
         }
 
         Contact contact = receivedMessage.getContact();
         if (contact != null) {
-            processContact(contact,receivedMessage.getFrom());
-            generateOTP(chatId);
+            AllowedUser allowedUser = allowedUserService.findUserByPhoneNumber(contact.getPhoneNumber());
+            if (allowedUser != null) {
+                processContact(contact, receivedMessage.getFrom());
+                generateOTP(chatId);
+            } else {
+                hideKeyboardButtons(chatId,configTelegram.getMessageNotAllowedPhoneNumber());
+            }
             return;
         }
 
@@ -79,15 +86,25 @@ public class TelegramController extends TelegramLongPollingBot {
         } else {
             registerUser(chatId);
         }
-        logger.debug("random input");
+    }
 
+    /**
+     * Deletes keyboard wich all buttons
+     *
+     * @param chatId      - target chat id
+     * @param messageText - message text
+     */
+    private void hideKeyboardButtons(long chatId, String messageText) {
+        SendMessage message = new SendMessage(chatId, messageText);
+        ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove();
+        message.setReplyMarkup(replyKeyboardRemove);
+        sendToUser(message);
     }
 
     @Override
     public String getBotToken() {
         return configTelegram.getBotToken();
     }
-
 
     @Override
     public String getBotUsername() {
@@ -97,15 +114,14 @@ public class TelegramController extends TelegramLongPollingBot {
     private void registerUser(long chatId) {
         SendMessage message = new SendMessage(chatId,configTelegram.getRegistrationChatMessage() );
         message.setReplyMarkup(prepareRegistrationButton(configTelegram.getRegistrationButtonText(),ButtonType.REQUEST_CONTACT));
-        sendToUser(message, chatId, "registerUser done");
+        sendToUser(message);
     }
 
     private void generateOTP(long chatId) {
         SendMessage message = new SendMessage(chatId,configTelegram.getGenerateOTPChatMessage() );
         message.setReplyMarkup(prepareRegistrationButton(configTelegram.getGenerateOTPButtonText(),ButtonType.REQUEST_TEXT));
-        sendToUser(message, chatId, "generateOTP done");
+        sendToUser(message);
     }
-
 
     private ReplyKeyboardMarkup prepareRegistrationButton(String buttonText, ButtonType buttonType) {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
@@ -134,32 +150,12 @@ public class TelegramController extends TelegramLongPollingBot {
         return row;
     }
 
-    /**
-     * Deletes keyboard wich all buttons
-     *
-     * @param chatId      - target chat id
-     * @param messageText - message text
-     */
-    private void hideKeyboardButtons(long chatId, String messageText) {
-        SendMessage message = new SendMessage(chatId, messageText);
-        ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove();
-        message.setReplyMarkup(replyKeyboardRemove);
-        sendToUser(message, chatId, messageText);
-    }
-
-    /**
-     * Sends message to user
-     *
-     * @param message     - message
-     * @param chatId      - chat id
-     * @param messageText - a text of the message
-     */
-    private void sendToUser(SendMessage message, long chatId, String messageText)  {
+    private void sendToUser(SendMessage message)  {
         try {
             execute(message);
-            logger.debug("Sent message {} to {}", messageText, chatId);
+            logger.debug("Sent message: {}", message);
         } catch (Exception e) {
-            logger.error("Failed to sendNotificationToMail message {} to {} due to error {}", messageText, chatId, e.getMessage());
+            logger.error(e.getMessage(),e);
         }
     }
 
@@ -172,7 +168,7 @@ public class TelegramController extends TelegramLongPollingBot {
      */
     private void saveContact(Contact contact, User sender ) {
        TelegramUser newUser = new TelegramUser();
-        newUser.setUserID(Long.valueOf(contact.getUserID()));
+        newUser.setUserId(Long.valueOf(contact.getUserID()));
         newUser.setFirstName(contact.getFirstName());
         newUser.setLastName(contact.getLastName());
         newUser.setPhoneNumber(contact.getPhoneNumber());

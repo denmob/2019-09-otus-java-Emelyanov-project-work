@@ -1,4 +1,4 @@
-package ru.otus.pw01.model;
+package ru.otus.pw01.service;
 
 public enum ButtonType {
   REQUEST_CONTACT("RequestContact"),

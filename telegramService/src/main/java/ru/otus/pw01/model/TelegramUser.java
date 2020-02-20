@@ -12,20 +12,27 @@ public class TelegramUser  {
     @Id
     private String id;
 
-    @Field("phoneNumber")
+    @Field("phone_number")
     private String phoneNumber;
-    @Field("firstName")
+
+    @Field("first_name")
     private String firstName;
-    @Field("lastName")
+
+    @Field("last_name")
     private String lastName;
-    @Field("userID")
-    private Long userID;
-    @Field("vCard")
+
+    @Field("user_id")
+    private Long userId;
+
+    @Field("v_card")
     private String vCard;
+
     @Field("is_bot")
     private Boolean isBot;
-    @Field("username")
+
+    @Field("user_name")
     private String userName;
+
     @Field("language_code")
     private String languageCode;
 
@@ -77,12 +84,12 @@ public class TelegramUser  {
         this.lastName = lastName;
     }
 
-    public Long getUserID() {
-        return userID;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getvCard() {
@@ -97,7 +104,7 @@ public class TelegramUser  {
     public String toString() {
         return "TelegramUser{" +
                 "id=" + id +
-                ", userID=" + userID +
+                ", userID=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", isBot=" + isBot +
                 ", lastName='" + lastName + '\'' +
