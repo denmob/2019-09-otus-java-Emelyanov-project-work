@@ -43,10 +43,8 @@ public class TelegramUserServiceImpl implements TelegramUserService {
     @Override
     @Transactional
     public void saveUserIfNotExist(TelegramUser userToSave) {
-        logger.debug("saveUserIfNotExist userToSave={}",userToSave);
         TelegramUser foundUser = findUserByUserID(userToSave.getUserId());
         if (foundUser == null) {
-            logger.debug("User not found. userToSave={} ", userToSave);
             telegramUserRepository.save(userToSave);
         }
     }

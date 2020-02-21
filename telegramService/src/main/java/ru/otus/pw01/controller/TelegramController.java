@@ -1,4 +1,4 @@
-package ru.otus.pw01;
+package ru.otus.pw01.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class TelegramController extends TelegramLongPollingBot {
 
     private static final Logger logger = LoggerFactory.getLogger(TelegramController.class);
 
-    private final TelegramConfig configTelegram;
+    final TelegramConfig configTelegram;
     private final TelegramUserService telegramUserService;
     private final AllowedUserService allowedUserService;
 
@@ -150,7 +150,7 @@ public class TelegramController extends TelegramLongPollingBot {
         return row;
     }
 
-    public void sendToUser(SendMessage message)  {
+    void sendToUser(SendMessage message)  {
         try {
             execute(message);
             logger.debug("Sent message: {}", message);
