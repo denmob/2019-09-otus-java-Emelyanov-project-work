@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.otus.pw.library.mq.MqHandler;
+import ru.otus.pw.library.mq.MqHandlerImpl;
 
 import java.util.stream.IntStream;
 
