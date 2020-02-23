@@ -16,6 +16,7 @@
     <properties>
         <telegrambots.version>4.6</telegrambots.version>
         <mongock-spring.version>3.2.2.BETA</mongock-spring.version>
+        <sharedLibrary.version>1.0</sharedLibrary.version>
     </properties>
 
     <dependencies>
@@ -53,6 +54,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>otus-pw</groupId>
+            <artifactId>sharedLibrary</artifactId>
+            <version>${sharedLibrary.version}</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

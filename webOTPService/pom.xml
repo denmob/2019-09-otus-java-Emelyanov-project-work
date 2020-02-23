@@ -16,6 +16,7 @@
     <properties>
         <mongock-spring.version>3.2.2.BETA</mongock-spring.version>
         <amqp-client.version>5.7.0</amqp-client.version>
+        <sharedLibrary.version>1.0</sharedLibrary.version>
     </properties>
 
     <dependencies>
@@ -59,9 +60,10 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.rabbitmq</groupId>
-            <artifactId>amqp-client</artifactId>
-            <version>${amqp-client.version}</version>
+            <groupId>otus-pw</groupId>
+            <artifactId>sharedLibrary</artifactId>
+            <version>${sharedLibrary.version}</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

@@ -15,7 +15,7 @@ public class MqHandlerImplTest {
 
     private static Logger logger = LoggerFactory.getLogger(MqHandlerImplTest.class);
 
-    private final MqHandler mqHandler = new MqHandlerImpl("localhost");
+    private final MqHandler mqHandler = new MqHandlerImpl("localhost","QUEUE_DATA_OPT_SERVICE");
 
     private final static int COUNT_MESSAGE_FOR_TEST = 10;
 

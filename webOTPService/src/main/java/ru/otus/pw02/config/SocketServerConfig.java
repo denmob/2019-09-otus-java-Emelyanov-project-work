@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import ru.otus.pw02.mq.MqHandlerImpl;
+import ru.otus.pw.library.mq.MqHandlerImpl;
 import ru.otus.pw02.sockets.SocketServer;
 import ru.otus.pw02.sockets.SocketServerImpl;
 
@@ -23,9 +23,12 @@ public class SocketServerConfig {
     @Value("${clientsNumber:1}")
     private int clientsNumber;
 
+    @Value("${queueDataName:OPT_SERVICE}")
+    private String queueDataName;
+
     @Bean
     public MqHandlerImpl serverHandler() {
-        return  new MqHandlerImpl(host);
+        return  new MqHandlerImpl(host,queueDataName);
     }
 
     @Bean
@@ -35,10 +38,4 @@ public class SocketServerConfig {
         return server;
     }
 
-//    @Bean
-//    public SocketServer socketServer() {
-//        SocketServer server = new SocketServerImpl(host, port, clientsNumber);
-//        server.start();
-//        return server;
-//    }
 }

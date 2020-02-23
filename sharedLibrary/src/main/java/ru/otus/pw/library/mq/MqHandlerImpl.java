@@ -1,4 +1,5 @@
-package ru.otus.pw02.mq;
+package ru.otus.pw.library.mq;
+
 
 import com.rabbitmq.client.*;
 import org.slf4j.Logger;
@@ -9,18 +10,19 @@ public class MqHandlerImpl implements MqHandler {
 
     private static Logger logger = LoggerFactory.getLogger(MqHandlerImpl.class);
 
-    private static final String QUEUE_NAME = "QUEUE_DATA";
+    private String queueName;
     private Channel channel;
     private boolean connectionToQueueAvailable = false;
     private AMQP.Queue.DeclareOk dok;
 
-    public MqHandlerImpl(String host) {
+    public MqHandlerImpl(String host,String queueName) {
         try {
+            this.queueName = queueName;
             ConnectionFactory factory = new ConnectionFactory();
             factory.setHost(host);
             Connection connection = factory.newConnection();
             channel = connection.createChannel();
-             dok = channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+             dok = channel.queueDeclare(queueName, false, false, false, null);
             connectionToQueueAvailable = true;
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
@@ -32,7 +34,7 @@ public class MqHandlerImpl implements MqHandler {
     public void putToQueue(byte[] message) {
         if (connectionToQueueAvailable) {
             try {
-                channel.basicPublish("", QUEUE_NAME, null, message);
+                channel.basicPublish("", queueName, null, message);
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
             }
@@ -42,7 +44,7 @@ public class MqHandlerImpl implements MqHandler {
     public byte[] getFromQueue() {
         if (connectionToQueueAvailable) {
             try {
-                GetResponse r = channel.basicGet(QUEUE_NAME, true);
+                GetResponse r = channel.basicGet(queueName, true);
                 if (r != null) {
                     return r.getBody();
                 }

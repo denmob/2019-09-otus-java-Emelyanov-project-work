@@ -1,6 +1,6 @@
-package ru.otus.pw02.mq;
+package ru.otus.pw.library.mq;
 
-import java.io.IOException;
+
 
 public interface MqHandler {
 
