@@ -9,8 +9,8 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>otus-pw</groupId>
-        <artifactId>otus-java</artifactId>
+        <groupId>otus-java</groupId>
+        <artifactId>otus-pw</artifactId>
         <version>2019-09-SNAPSHOT</version>
     </parent>
 
@@ -32,22 +32,6 @@
             <artifactId>mongock-spring</artifactId>
             <version>${mongock-spring.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-webmvc</artifactId>-->
-<!--            <version>${spring-web.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>javax.servlet</groupId>-->
-<!--            <artifactId>javax.servlet-api</artifactId>-->
-<!--            <version>4.0.1</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-web</artifactId>-->
-<!--            <version>${spring-web.version}</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -75,10 +59,9 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
-            <groupId>otus-pw</groupId>
+            <groupId>otus-java</groupId>
             <artifactId>sharedLibrary</artifactId>
             <version>${sharedLibrary.version}</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

@@ -2,7 +2,9 @@ package ru.otus.pw01.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,18 +17,23 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRem
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.otus.pw.library.mesages.CommandType;
+import ru.otus.pw.library.mesages.MessageTransport;
+import ru.otus.pw.library.mq.MqHandler;
+import ru.otus.pw.library.service.MqService;
 import ru.otus.pw01.config.TelegramConfig;
 import ru.otus.pw01.model.AllowedUser;
 import ru.otus.pw01.service.AllowedUserService;
 import ru.otus.pw01.service.ButtonType;
 import ru.otus.pw01.model.TelegramUser;
 import ru.otus.pw01.service.TelegramUserService;
+import ru.otus.pw01.sokets.SocketClient;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("telegramController")
+@Controller
 public class TelegramController extends TelegramLongPollingBot {
 
     private static final Logger logger = LoggerFactory.getLogger(TelegramController.class);
@@ -34,11 +41,13 @@ public class TelegramController extends TelegramLongPollingBot {
     final TelegramConfig configTelegram;
     private final TelegramUserService telegramUserService;
     private final AllowedUserService allowedUserService;
+    private final SocketClient socketClient;
 
-    public TelegramController(TelegramUserService telegramUserService, TelegramConfig configTelegram, AllowedUserService allowedUserService) {
+    public TelegramController(TelegramUserService telegramUserService, TelegramConfig configTelegram, AllowedUserService allowedUserService, SocketClient socketClient) {
         this.telegramUserService = telegramUserService;
         this.configTelegram = configTelegram;
         this.allowedUserService = allowedUserService;
+        this.socketClient = socketClient;
     }
 
     @PostConstruct
@@ -65,6 +74,7 @@ public class TelegramController extends TelegramLongPollingBot {
         if (receivedMessageText != null && receivedMessageText.equals(configTelegram.getGenerateOTPButtonText())) {
             SendMessage message = new SendMessage(chatId, configTelegram.getMessageWaitOTP());
             sendToUser(message);
+            socketClient.sendMessage(new MessageTransport(String.valueOf(chatId),"otpService", CommandType.GENERATE_OTP,String.valueOf(chatId)));
             return;
         }
 
@@ -150,7 +160,7 @@ public class TelegramController extends TelegramLongPollingBot {
         return row;
     }
 
-    void sendToUser(SendMessage message)  {
+    public void sendToUser(SendMessage message)  {
         try {
             execute(message);
             logger.debug("Sent message: {}", message);

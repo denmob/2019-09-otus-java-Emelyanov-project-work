@@ -20,8 +20,14 @@ telegram:
     messageWaitOTP: Wait for receive one-time password (response time <1 min)
     messageNotAllowedPhoneNumber: Sorry this phoneNumber not allowed for registration!
 
-socket:
-    server:
-        host: localhost
-        port: 8001
 
+connection:
+    socketHost: localhost
+    socketPort: 8001
+    httpHost: localhost
+    httpPort: 8080
+    rabbitMqHost: localhost
+    rabbitMqPort: 5672
+
+mq:
+    queueDataName: telegramService

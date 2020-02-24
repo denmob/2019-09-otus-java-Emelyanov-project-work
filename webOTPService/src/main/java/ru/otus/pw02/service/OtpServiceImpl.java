@@ -37,11 +37,11 @@ public class OtpServiceImpl implements OtpService{
     }
 
     @Override
-    public long getOtp(String key){
+    public boolean checkOtp(long otp){
         try{
-            return otpCache.get(key);
+            return otpCache.asMap().containsValue(otp);
         }catch (Exception e){
-            return 0;
+            return false;
         }
     }
 }

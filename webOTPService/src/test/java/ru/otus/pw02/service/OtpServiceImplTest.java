@@ -10,8 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @SpringBootTest
 public class OtpServiceImplTest {
@@ -31,22 +30,19 @@ public class OtpServiceImplTest {
     public void getOtp() {
         String s ="Hello";
         long otp = otpService.generateOTP(s);
+        String optString =  String.valueOf(otp);
+        otp = Long.parseLong(optString);
         logger.info("generated OTP: {}", otp);
-         otp = otpService.getOtp(s);
-        logger.info("getOtp OTP: {}", otp);
-        assertTrue(otp>0);
+        assertTrue( otpService.checkOtp(otp));
     }
 
     @Test
     public void getOtpFail() throws InterruptedException {
-        String s ="Hello";
+        String s = "Hello";
         long otp = otpService.generateOTP(s);
         logger.info("generated OTP: {}", otp);
         Thread.sleep(TimeUnit.SECONDS.toMillis(61));
-        otp = otpService.getOtp(s);
-        logger.info("getOtp OTP: {}", otp);
-        assertEquals(0, otp);
+        assertFalse(otpService.checkOtp(otp));
     }
-
 
 }

@@ -20,6 +20,19 @@
             margin-top: 10px;
         }
     </style>
+    <script>
+        function processUser() {
+            var parameters = location.search.substring(1).split("&");
+            var temp = parameters[0].split("=");
+            var otpValue = unescape(temp[1]);
+            if (otpValue != null)
+             elem = document.getElementById("otpTextBox").value = otpValue;
+        }
+        window.onload = function() {
+         processUser();
+        };
+    </script>
+
 </head>
 <body>
 <div class="top">

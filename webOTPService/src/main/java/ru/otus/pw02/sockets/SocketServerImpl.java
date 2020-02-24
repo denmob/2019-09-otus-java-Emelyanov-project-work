@@ -5,8 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.pw.library.mesages.MessageTransport;
 import ru.otus.pw.library.mq.MqHandler;
-import ru.otus.pw.library.mq.MqHandlerImpl;
-import ru.otus.pw.library.secret.HandShake;
+import ru.otus.pw.library.handshake.HandShake;
 import ru.otus.pw.library.misc.SerializeMessageTransport;
 import java.io.*;
 import java.net.ServerSocket;
@@ -18,15 +17,14 @@ public class SocketServerImpl implements SocketServer {
   private static Logger logger = LoggerFactory.getLogger(SocketServerImpl.class);
 
   private final int socketPort;
-  private final ExecutorService executorServer = Executors.newSingleThreadExecutor();
+  private final ExecutorService executorServer = Executors.newScheduledThreadPool(5);
   private boolean running = false;
-  private final Object monitor = new Object();
-  private final MqHandler serverHandler;
+  private final MqHandler mqHandler;
   private Socket socketClient;
 
-  public SocketServerImpl(int socketPort, MqHandler serverHandler) {
+  public SocketServerImpl(int socketPort, MqHandler mqHandler) {
     this.socketPort = socketPort;
-    this.serverHandler = serverHandler;
+    this.mqHandler = mqHandler;
     this.executorServer.execute(this::run);
   }
 
@@ -43,34 +41,34 @@ public class SocketServerImpl implements SocketServer {
   }
 
   private String registrationSocketClient(Socket clientSocket, String inputData) {
-    synchronized (monitor) {
       String fromJson = new Gson().fromJson(inputData, String.class);
       String responseMessage;
       if (fromJson.equals(HandShake.REGISTRATION_VALUE.getValue())) {
         this.socketClient = clientSocket;
-        responseMessage = String.format("client registered with param: %s", inputData);
-        logger.debug(responseMessage);
+        logger.debug("client registered with param: {}", inputData);
+        responseMessage = new Gson().toJson(HandShake.REGISTRATION_SUCCESS.getValue());
       } else {
-        responseMessage = "Invalid handshake value";
-        logger.debug(responseMessage);
+        logger.debug("Invalid handshake value");
+        responseMessage = new Gson().toJson(HandShake.REGISTRATION_FAIL.getValue());
       }
-      responseMessage = new Gson().toJson(responseMessage);
       return responseMessage;
-    }
   }
 
   private void clientHandler(Socket clientSocket) {
+    logger.debug("clientHandler ");
     try (PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
          BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
       String inputLine;
       while ((inputLine = in.readLine()) != null) {
         logger.debug("input message: {} ", inputLine);
-        if (socketClient != null) {
-          out.println(registrationSocketClient(clientSocket, inputLine));
+        if (this.socketClient == null) {
+          String responseMessage = registrationSocketClient(clientSocket, inputLine);
+          logger.debug("responseMessage: {}",responseMessage);
+          out.println(responseMessage);
         } else {
           MessageTransport messageTransport = new Gson().fromJson(inputLine, MessageTransport.class);
           logger.debug("messageTransport: {}", messageTransport);
-          serverHandler.putToQueue(SerializeMessageTransport.serializeObject(messageTransport));
+          mqHandler.putToQueue(SerializeMessageTransport.serializeObject(messageTransport));
         }
       }
     } catch(Exception ex){

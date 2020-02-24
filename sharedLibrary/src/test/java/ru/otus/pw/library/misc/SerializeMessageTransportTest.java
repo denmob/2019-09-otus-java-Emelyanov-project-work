@@ -16,7 +16,7 @@ class SerializeMessageTransportTest {
 
     @Test
     void serializeObject() {
-        MessageTransport messageTransport = new MessageTransport(CommandType.GENERATE_OTP,"GENERATE_OTP");
+        MessageTransport messageTransport = new MessageTransport("","",CommandType.GENERATE_OTP,"GENERATE_OTP");
         byte[] serializeMT = SerializeMessageTransport.serializeObject(messageTransport);
         assertNotNull(serializeMT);
         logger.info(new String(serializeMT));
@@ -24,7 +24,7 @@ class SerializeMessageTransportTest {
 
     @Test
     void deserializeBytes() {
-        MessageTransport messageTransport = new MessageTransport( CommandType.GENERATE_OTP,"GENERATE_OTP");
+        MessageTransport messageTransport = new MessageTransport("","", CommandType.GENERATE_OTP,"GENERATE_OTP");
         byte[] serializeMT = SerializeMessageTransport.serializeObject(messageTransport);
         MessageTransport messageTransportNew = SerializeMessageTransport.deserializeBytes(serializeMT);
         assertEquals(messageTransport.toString(),messageTransportNew.toString());

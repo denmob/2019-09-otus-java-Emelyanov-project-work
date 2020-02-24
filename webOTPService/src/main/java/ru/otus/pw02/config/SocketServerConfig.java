@@ -7,33 +7,46 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import ru.otus.pw.library.mq.MqHandler;
 import ru.otus.pw.library.mq.MqHandlerImpl;
+import ru.otus.pw.library.service.MqService;
+import ru.otus.pw02.service.MqServiceImpl;
+import ru.otus.pw02.service.OtpService;
 import ru.otus.pw02.sockets.SocketServer;
 import ru.otus.pw02.sockets.SocketServerImpl;
 
 @Configuration
-@ConfigurationProperties(prefix="socket")
 @PropertySource("settings.yml")
 public class SocketServerConfig {
 
-    @Value("${host:localhost}")
-    private String host;
+    @Value("${socketPort}")
+    private int socketPort;
 
-    @Value("${port:8000}")
-    private int port;
+    @Value("${rabbitMqHost}")
+    private String rabbitMqHost;
 
-    @Value("${queueDataName:OPT_SERVICE}")
+    @Value("${rabbitMqPort}")
+    private int rabbitMqPort;
+
+    @Value("${queueDataName:otpService}")
     private String queueDataName;
 
     @Bean
-    public MqHandlerImpl mqHandler() {
-        return new MqHandlerImpl(host,queueDataName);
+    public MqHandler mqHandler() {
+        return new MqHandlerImpl(rabbitMqHost,rabbitMqPort,queueDataName);
     }
 
     @Bean
-    public SocketServer socketServer(MqHandlerImpl mqHandler) {
-        SocketServer server = new SocketServerImpl(port,mqHandler);
+    public SocketServer socketServer(MqHandler mqHandler) {
+        SocketServer server = new SocketServerImpl(socketPort,mqHandler);
         server.start();
         return server;
     }
+
+    @Bean
+    public MqService mqService(SocketServer socketServer, MqHandler mqHandler, OtpService otpService) {
+        MqService mqService = new MqServiceImpl(socketServer,mqHandler,otpService);
+        mqService.start();
+        return mqService;
+    }
+
 
 }

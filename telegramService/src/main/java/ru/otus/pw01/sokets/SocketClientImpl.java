@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import ru.otus.pw.library.mesages.MessageTransport;
 import ru.otus.pw.library.misc.SerializeMessageTransport;
 import ru.otus.pw.library.mq.MqHandler;
-import ru.otus.pw.library.secret.HandShake;
+import ru.otus.pw.library.handshake.HandShake;
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -29,18 +29,20 @@ public class SocketClientImpl implements SocketClient {
     }
   }
 
-  private void registrationToMs() {
+  private void registrationOnOTPService() {
     try {
       if (clientSocket.isConnected()) {
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        String jsonParam = new Gson().toJson(HandShake.REGISTRATION_VALUE);
-        logger.info("send to MS name: {}",jsonParam);
+        String jsonParam = new Gson().toJson(HandShake.REGISTRATION_VALUE.getValue());
+        logger.info("send to OTPService: {}",jsonParam);
         out.println(jsonParam);
-        boolean answerMs = Boolean.parseBoolean(in.readLine());
-        if (answerMs) {
-          executorServer.execute(this::run);
+        String response = new Gson().fromJson(in.readLine(), String.class);
+        if (response.equals(HandShake.REGISTRATION_SUCCESS.getValue())) {
           logger.info("client registration successful");
+          executorServer.execute(this::response);
+        } else {
+          logger.error(HandShake.REGISTRATION_FAIL.getValue());
         }
       }
     } catch (Exception ex) {
@@ -48,19 +50,16 @@ public class SocketClientImpl implements SocketClient {
     }
   }
 
-  private void run() {
+  private void response() {
     try {
       while (clientSocket.isConnected()) {
-        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        MessageTransport msg = SerializeMessageTransport.deserializeBytes(mqHandler.getFromQueue());
-        String json =  new Gson().toJson(msg);
-        logger.info("sending to server {}",json);
-        out.println(json);
         String resp = in.readLine();
-        logger.info("server response: {}", resp);
-        MessageTransport messageOut = new Gson().fromJson(resp, MessageTransport.class);
-        mqHandler.putToQueue(SerializeMessageTransport.serializeObject(messageOut));
+        if (resp!= null) {
+          logger.info("server response: {}", resp);
+          MessageTransport messageOut = new Gson().fromJson(resp, MessageTransport.class);
+          mqHandler.putToQueue(SerializeMessageTransport.serializeObject(messageOut));
+        }
       }
     } catch (Exception ex) {
       logger.error(ex.getMessage(), ex);
@@ -69,7 +68,7 @@ public class SocketClientImpl implements SocketClient {
 
   @Override
   public void start() {
-    executorServer.execute(this::registrationToMs);
+    registrationOnOTPService();
   }
 
   @Override
@@ -82,8 +81,18 @@ public class SocketClientImpl implements SocketClient {
   }
 
   @Override
-  public void sendMessage(MessageTransport message) {
-      mqHandler.putToQueue(SerializeMessageTransport.serializeObject(message));
+  public void sendMessage(MessageTransport messageTransport) {
+    if (this.clientSocket != null) {
+      try {
+        if (clientSocket.isConnected()) {
+          PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+          String json = new Gson().toJson(messageTransport);
+          out.println(json);
+        }
+      } catch (Exception ex) {
+        logger.error(ex.getMessage(), ex);
+      }
+    } else logger.error("Socket client not registered");
   }
 
   @Override

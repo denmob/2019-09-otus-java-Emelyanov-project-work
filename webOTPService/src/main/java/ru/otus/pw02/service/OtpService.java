@@ -4,5 +4,5 @@ public interface OtpService {
 
     long generateOTP(String key);
 
-    long getOtp(String key);
+    boolean checkOtp(long otp);
 }

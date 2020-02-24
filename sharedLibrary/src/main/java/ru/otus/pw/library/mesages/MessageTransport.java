@@ -10,7 +10,9 @@ public class MessageTransport implements Serializable {
 
   private final UUID id = UUID.randomUUID();
   private final CommandType command;
-  private String data;
+  private final String data;
+  private final String from;
+  private final String to;
 
   public CommandType getCommand() {
     return command;
@@ -18,11 +20,18 @@ public class MessageTransport implements Serializable {
   public String getData() {
     return data;
   }
-  public void setData(String data) {
-    this.data = data;
+  public String getFrom() {
+    return from;
   }
 
-  public MessageTransport(CommandType command, String data ) {
+  public String getTo() {
+    return to;
+  }
+
+
+  public MessageTransport(String from, String to, CommandType command, String data) {
+    this.from = from;
+    this.to = to;
     this.command = command;
     this.data = data;
   }
@@ -42,12 +51,6 @@ public class MessageTransport implements Serializable {
 
   @Override
   public String toString() {
-    return "Message{" +
-        "id=" + id +
-        ", command=" + command +
-        ", data='" + data +
-        '}';
+    return "Message{id=" + id + ", from=" + from + ", to=" + to + ", command=" + command + ", data='" + data + '}';
   }
-
-
 }

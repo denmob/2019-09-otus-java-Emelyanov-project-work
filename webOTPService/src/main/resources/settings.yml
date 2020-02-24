@@ -1,11 +1,13 @@
 runner:
-  telegramServiceStartCommand:
+  telegramServiceStartCommand: java -jar F:\\Documents\\java\\2019-09-otus-java-Emelyanov-project-work\\telegramService\\target\\telegramService-1.0-SNAPSHOT.jar
 
-socket:
-  port: 8001
+connection:
+  socketPort: 8001
+  rabbitMqHost: localhost
+  rabbitMqPort: 5672
 
 mq:
-  queueDataName: OPT_SERVICE
+  queueDataName: otpService
 
 otp:
-  expireMin: 1
+  expireMin: 5

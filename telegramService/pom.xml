@@ -8,8 +8,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <parent>
-        <groupId>otus-pw</groupId>
-        <artifactId>otus-java</artifactId>
+        <groupId>otus-java</groupId>
+        <artifactId>otus-pw</artifactId>
         <version>2019-09-SNAPSHOT</version>
     </parent>
 
@@ -56,10 +56,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>otus-pw</groupId>
+            <groupId>otus-java</groupId>
             <artifactId>sharedLibrary</artifactId>
             <version>${sharedLibrary.version}</version>
-            <optional>true</optional>
         </dependency>
     </dependencies>
 

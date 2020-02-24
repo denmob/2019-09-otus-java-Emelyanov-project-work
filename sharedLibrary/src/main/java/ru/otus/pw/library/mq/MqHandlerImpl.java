@@ -15,11 +15,12 @@ public class MqHandlerImpl implements MqHandler {
     private boolean connectionToQueueAvailable = false;
     private AMQP.Queue.DeclareOk dok;
 
-    public MqHandlerImpl(String host,String queueName) {
+    public MqHandlerImpl(String host,int port, String queueName) {
         try {
             this.queueName = queueName;
             ConnectionFactory factory = new ConnectionFactory();
             factory.setHost(host);
+            factory.setPort(port);
             Connection connection = factory.newConnection();
             channel = connection.createChannel();
              dok = channel.queueDeclare(queueName, false, false, false, null);

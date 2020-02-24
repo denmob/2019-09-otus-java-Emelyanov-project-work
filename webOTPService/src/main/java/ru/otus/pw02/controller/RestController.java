@@ -63,7 +63,7 @@ public class RestController {
     @PostMapping(path = "/login")
     public String doLogin(HttpServletRequest request, @RequestParam(defaultValue = "") String otp) {
         logger.debug("doLogin otp:{}",otp);
-        if (otpService.getOtp(otp)>0) {
+        if (otpService.checkOtp(Long.parseLong(otp))) {
             request.getSession().setAttribute(ATTR_OTP, otp);
             return REDIRECT_TO_HOME;
         } else {
