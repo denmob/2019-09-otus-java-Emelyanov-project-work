@@ -4,14 +4,11 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.pw.library.mesages.MessageTransport;
+import ru.otus.pw.library.misc.SerializeMessageTransport;
+import ru.otus.pw.library.mq.MqHandler;
 import ru.otus.pw.library.secret.HandShake;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,13 +16,12 @@ import java.util.concurrent.Executors;
 public class SocketClientImpl implements SocketClient {
   private static Logger logger = LoggerFactory.getLogger(SocketClientImpl.class);
 
-  private  Socket clientSocket;
-
-  private final ArrayBlockingQueue<MessageTransport> forSocketServer = new ArrayBlockingQueue<>(10);
-  private final ArrayBlockingQueue<MessageTransport> fromSocketServer = new ArrayBlockingQueue<>(10);
+  private Socket clientSocket;
+  private final MqHandler mqHandler;
   private final ExecutorService executorServer = Executors.newSingleThreadExecutor();
 
-  public SocketClientImpl(String host, int port) {
+  public SocketClientImpl(String host, int port, MqHandler mqHandler) {
+    this.mqHandler = mqHandler;
     try {
       clientSocket = new Socket(host, port);
     } catch (IOException e) {
@@ -57,14 +53,14 @@ public class SocketClientImpl implements SocketClient {
       while (clientSocket.isConnected()) {
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        MessageTransport msg = forSocketServer.take();
+        MessageTransport msg = SerializeMessageTransport.deserializeBytes(mqHandler.getFromQueue());
         String json =  new Gson().toJson(msg);
         logger.info("sending to server {}",json);
         out.println(json);
         String resp = in.readLine();
         logger.info("server response: {}", resp);
         MessageTransport messageOut = new Gson().fromJson(resp, MessageTransport.class);
-        fromSocketServer.put(messageOut);
+        mqHandler.putToQueue(SerializeMessageTransport.serializeObject(messageOut));
       }
     } catch (Exception ex) {
       logger.error(ex.getMessage(), ex);
@@ -87,22 +83,11 @@ public class SocketClientImpl implements SocketClient {
 
   @Override
   public void sendMessage(MessageTransport message) {
-    try {
-      forSocketServer.put(message);
-    } catch (InterruptedException e) {
-      logger.error(e.getMessage(),e);
-    }
+      mqHandler.putToQueue(SerializeMessageTransport.serializeObject(message));
   }
-
 
   @Override
   public MessageTransport receiveMessage() {
-    try {
-      return fromSocketServer.take();
-    } catch (InterruptedException e) {
-      logger.error(e.getMessage(),e);
-    }
-    return null;
+      return  SerializeMessageTransport.deserializeBytes(mqHandler.getFromQueue());
   }
-
 }

@@ -1,9 +1,0 @@
-runner:
-  telegramServiceStartCommand:
-
-socket:
-  port: 8001
-  clientsNumber: 1
-
-mq:
-  queueDataName: OPT_SERVICE

@@ -1,11 +1,13 @@
 package ru.otus.pw02.controller;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.otus.pw02.service.OtpService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +26,9 @@ public class RestController {
     private static final  String REDIRECT_TO_HOME = "redirect:/";
     private static final  String REDIRECT_TO_LOGIN_PAGE = "redirect:/login";
     private static final  String REDIRECT_TO_ADMIN_PAGE = "redirect:/admin/page";
+
+    @Autowired
+    private OtpService otpService;
 
 
     @GetMapping(path="/")
@@ -58,8 +63,7 @@ public class RestController {
     @PostMapping(path = "/login")
     public String doLogin(HttpServletRequest request, @RequestParam(defaultValue = "") String otp) {
         logger.debug("doLogin otp:{}",otp);
-        boolean validOTP = !otp.isEmpty();
-        if (validOTP) {
+        if (otpService.getOtp(otp)>0) {
             request.getSession().setAttribute(ATTR_OTP, otp);
             return REDIRECT_TO_HOME;
         } else {

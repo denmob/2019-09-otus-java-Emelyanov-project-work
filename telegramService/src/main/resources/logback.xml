@@ -7,7 +7,6 @@
         </encoder>
     </appender>
 
-
     <logger name="ru.otus.pw01"  level="INFO,DEBUG,ERROR" >
         <appender-ref ref="console"/>
     </logger>

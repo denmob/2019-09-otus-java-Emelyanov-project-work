@@ -9,34 +9,22 @@ public class MessageTransport implements Serializable {
   private static final long serialVersionUID = 129348938L;
 
   private final UUID id = UUID.randomUUID();
-  private final String from;
-
-  public String getFrom() {
-    return from;
-  }
-
-  public String getTo() {
-    return to;
-  }
+  private final CommandType command;
+  private String data;
 
   public CommandType getCommand() {
     return command;
   }
-
-  public Object getObject() {
-    return object;
+  public String getData() {
+    return data;
+  }
+  public void setData(String data) {
+    this.data = data;
   }
 
-  private final String to;
-  private final CommandType command;
-  private final Object object;
-
-
-  public MessageTransport(String from, String to, CommandType command, Object object ) {
-    this.from = from;
-    this.to = to;
+  public MessageTransport(CommandType command, String data ) {
     this.command = command;
-    this.object = object;
+    this.data = data;
   }
 
   @Override
@@ -56,10 +44,8 @@ public class MessageTransport implements Serializable {
   public String toString() {
     return "Message{" +
         "id=" + id +
-        ", from='" + from + '\'' +
-        ", to='" + to + '\'' +
         ", command=" + command +
-        ", object='" + object +
+        ", data='" + data +
         '}';
   }
 
