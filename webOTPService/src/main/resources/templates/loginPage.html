@@ -22,11 +22,12 @@
     </style>
     <script>
         function processUser() {
-            var parameters = location.search.substring(1).split("&");
-            var temp = parameters[0].split("=");
-            var otpValue = unescape(temp[1]);
-            if (otpValue != null)
-             elem = document.getElementById("otpTextBox").value = otpValue;
+            const parameters = location.search.substring(1).split("&");
+            const temp = parameters[0].split("=");
+            const otpValue = unescape(temp[1]);
+            if ((otpValue != null) && (otpValue !== "undefined")) {
+                document.getElementById("otpTextBox").value = otpValue;
+            }
         }
         window.onload = function() {
          processUser();

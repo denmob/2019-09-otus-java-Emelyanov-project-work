@@ -3,13 +3,17 @@ package ru.otus.pw02.controller;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.otus.pw.library.model.UserData;
 import ru.otus.pw02.service.OtpService;
+import ru.otus.pw02.service.UserDataService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class RestController {
@@ -29,6 +33,9 @@ public class RestController {
 
     @Autowired
     private OtpService otpService;
+
+    @Autowired
+    private UserDataService userDataService;
 
 
     @GetMapping(path="/")
@@ -80,5 +87,15 @@ public class RestController {
     private boolean isUnAuthorized(HttpServletRequest request) {
         String otp = (String) request.getSession().getAttribute(ATTR_OTP);
         return otp == null || otp.isEmpty();
+    }
+
+    @GetMapping({"/userData/list"})
+    public String userListView(Model model) {
+        List<UserData> usersData = userDataService.getAllUserData();
+        for (UserData userData:usersData) {
+            logger.debug(userData.toString());
+        }
+        model.addAttribute("usersData", usersData);
+        return "userDataList";
     }
 }

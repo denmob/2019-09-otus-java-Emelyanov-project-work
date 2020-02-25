@@ -2,6 +2,8 @@ package ru.otus.pw02.service;
 
 import ru.otus.pw.library.model.UserData;
 
+import java.util.List;
+
 public interface UserDataService {
 
     /**
@@ -19,6 +21,12 @@ public interface UserDataService {
      * @param userDataToSave - user that need to be saved
      */
     void saveUserDataIfNotExist(UserData userDataToSave);
+
+    /**
+     * Get all userData
+     * @return list UserData
+     */
+    List<UserData> getAllUserData();
 
 }
 

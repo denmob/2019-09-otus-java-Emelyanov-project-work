@@ -93,7 +93,7 @@ public class MqServiceImpl implements MqService {
                         } else {
                             messageTransportResponse =
                                     new MessageTransport(messageTransport.getTo(), messageTransport.getFrom(), CommandType.RESPONSE_WITH_ERROR);
-                            messageTransportResponse.setData("messageTransport.Data is not userData");
+                            messageTransportResponse.setData("messageTransport.Data incorrect or not userData");
                         }
                     }catch (Exception e) {
                         logger.error(e.getMessage(),e);

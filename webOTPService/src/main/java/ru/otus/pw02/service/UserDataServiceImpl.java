@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ru.otus.pw.library.model.UserData;
 import ru.otus.pw02.repository.UserDataRepository;
 
+import java.util.List;
+
 @Service
 public class UserDataServiceImpl implements UserDataService {
 
@@ -39,5 +41,10 @@ public class UserDataServiceImpl implements UserDataService {
         if (foundUser == null) {
             userDataRepository.save(userDataToSave);
         }
+    }
+
+    @Override
+    public List<UserData> getAllUserData() {
+        return userDataRepository.findAll();
     }
 }
