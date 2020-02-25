@@ -1,6 +1,8 @@
 package ru.otus.pw01.sokets;
 
 
+import org.telegram.telegrambots.meta.api.objects.Contact;
+import ru.otus.pw.library.mesages.CommandType;
 import ru.otus.pw.library.mesages.MessageTransport;
 
 public interface SocketClient {
@@ -8,7 +10,7 @@ public interface SocketClient {
 
     void stop();
 
-    void sendMessage(MessageTransport message);
+    void sendMessage(CommandType commandType,String from, Contact contact);
 
-    MessageTransport receiveMessage();
+//    MessageTransport receiveMessage();
 }

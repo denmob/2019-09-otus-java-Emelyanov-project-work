@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.Timeout;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,34 +34,34 @@ public class TelegramUserServiceImplTest  extends RegTelegramApi {
         telegramUser.setUserId(DEV_CHAT_ID);
         telegramUser.setFirstName("testFirstName");
         telegramUser.setPhoneNumber(DEV_ALLOW_USER_PHONE_NUMBER_SET);
-        telegramUserService.saveUserIfNotExist(telegramUser);
+        telegramUserService.saveTelegramUserIfNotExist(telegramUser);
     }
 
     @Test
     @Order(2)
     public void findUserByPhoneNumberNotNull() {
-        TelegramUser telegramUser = telegramUserService.findUserByPhoneNumber(DEV_ALLOW_USER_PHONE_NUMBER_SET);
+        TelegramUser telegramUser = telegramUserService.findTelegramUserByPhoneNumber(DEV_ALLOW_USER_PHONE_NUMBER_SET);
         assertNotNull(telegramUser);
     }
 
     @Test
     @Order(3)
     public void findUserByPhoneNumberNull() {
-        TelegramUser telegramUser = telegramUserService.findUserByPhoneNumber("xxxxxx");
+        TelegramUser telegramUser = telegramUserService.findTelegramUserByPhoneNumber("xxxxxx");
         assertNull(telegramUser);
     }
 
     @Test
     @Order(4)
     public void findUserByUserIDNotNull() {
-        TelegramUser telegramUser = telegramUserService.findUserByUserID(DEV_CHAT_ID);
+        TelegramUser telegramUser = telegramUserService.findTelegramUserByUserID(DEV_CHAT_ID);
         assertNotNull(telegramUser);
     }
 
     @Test
     @Order(5)
     public void findUserByUserIDNull() {
-        TelegramUser telegramUser = telegramUserService.findUserByUserID(123L);
+        TelegramUser telegramUser = telegramUserService.findTelegramUserByUserID(123L);
         assertNull(telegramUser);
     }
 

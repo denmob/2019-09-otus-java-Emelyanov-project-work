@@ -15,7 +15,7 @@ public class OtpServiceImpl implements OtpService{
 
     private static final Logger logger = LoggerFactory.getLogger(OtpServiceImpl.class);
 
-    private LoadingCache<String, Long> otpCache;
+    private LoadingCache<Integer, Long> otpCache;
 
     public OtpServiceImpl(Integer expireMinutes){
         super();
@@ -23,16 +23,16 @@ public class OtpServiceImpl implements OtpService{
         otpCache = CacheBuilder.newBuilder().
                 expireAfterWrite(expireMinutes, TimeUnit.MINUTES).build(new CacheLoader<>() {
             @Override
-            public Long load(String s){
+            public Long load(Integer integer) throws Exception {
                 return 0L;
             }
         });
     }
 
     @Override
-    public long generateOTP(String key){
+    public long generateOTP(int hash){
          long otp = new Date().getTime() / TimeUnit.SECONDS.toMillis(30);
-        otpCache.put(key, otp);
+        otpCache.put(hash, otp);
         return otp;
     }
 

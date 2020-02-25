@@ -2,7 +2,6 @@ package ru.otus.pw01.service;
 
 
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.pw01.model.TelegramUser;
@@ -26,12 +25,12 @@ public class TelegramUserServiceImpl implements TelegramUserService {
      * @return - instance of TelegramUser or null
      */
     @Override
-    public TelegramUser findUserByUserID(Long userID) {
+    public TelegramUser findTelegramUserByUserID(Long userID) {
         return telegramUserRepository.findTelegramUserByUserId(userID);
     }
 
     @Override
-    public TelegramUser findUserByPhoneNumber(String phoneNumber) {
+    public TelegramUser findTelegramUserByPhoneNumber(String phoneNumber) {
         return telegramUserRepository.findTelegramUserByPhoneNumber(phoneNumber);
     }
 
@@ -42,8 +41,8 @@ public class TelegramUserServiceImpl implements TelegramUserService {
      */
     @Override
     @Transactional
-    public void saveUserIfNotExist(TelegramUser userToSave) {
-        TelegramUser foundUser = findUserByUserID(userToSave.getUserId());
+    public void saveTelegramUserIfNotExist(TelegramUser userToSave) {
+        TelegramUser foundUser = findTelegramUserByUserID(userToSave.getUserId());
         if (foundUser == null) {
             telegramUserRepository.save(userToSave);
         }

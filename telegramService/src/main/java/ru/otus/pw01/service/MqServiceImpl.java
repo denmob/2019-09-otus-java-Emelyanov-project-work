@@ -1,5 +1,6 @@
 package ru.otus.pw01.service;
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static ru.otus.pw.library.mesages.CommandType.SUCCESS_SAVE_USER_DATA;
 
 
 public class MqServiceImpl implements MqService {
@@ -68,10 +71,27 @@ public class MqServiceImpl implements MqService {
         try {
             SendMessage message = new SendMessage();
             message.setChatId(messageTransport.getTo());
-            message.setParseMode(ParseMode.HTML);
-            String url = String.format( "http://%s:%s/login?otpValue=%S",httpHost,httpPort,messageTransport.getData());
-            String urlTag = String.format( "<a href=\"%s\">%s</a>", url,url);
-            message.setText(urlTag);
+            switch (messageTransport.getCommand()){
+                case SUCCESS_GENERATE_OTP:{
+                    message.setParseMode(ParseMode.HTML);
+                    long otp = new Gson().fromJson((String) messageTransport.getData(),Long.class);
+                    String url = String.format("http://%s:%s/login?otpValue=%S",httpHost,httpPort,otp);
+                    String urlTag = String.format("<a href=\"%s\"> %s </a>", url,url);
+                    message.setText(urlTag);
+                    break;
+                }
+                case SUCCESS_SAVE_USER_DATA:{
+                    logger.debug("handleMessage messageTransport with {}",SUCCESS_SAVE_USER_DATA.getValue());
+                    break;
+                }
+                case RESPONSE_WITH_ERROR:{
+                    String responseMessage = new Gson().fromJson((String) messageTransport.getData(),String.class);
+                    message.setText(responseMessage);
+                    break;
+                }
+                default:
+                    throw new IllegalStateException("Unexpected value: " + messageTransport.getCommand());
+            }
             telegramController.sendToUser(message);
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);

@@ -21,7 +21,7 @@ public class OtpServiceImplTest {
     @Test
     public void generateOTP() {
         String s ="Hello";
-        long otp = otpService.generateOTP(s);
+        long otp = otpService.generateOTP(s.hashCode());
         logger.info("generated OTP: {}", otp);
         assertTrue(otp>0);
     }
@@ -29,7 +29,7 @@ public class OtpServiceImplTest {
     @Test
     public void getOtp() {
         String s ="Hello";
-        long otp = otpService.generateOTP(s);
+        long otp = otpService.generateOTP(s.hashCode());
         String optString =  String.valueOf(otp);
         otp = Long.parseLong(optString);
         logger.info("generated OTP: {}", otp);
@@ -39,7 +39,7 @@ public class OtpServiceImplTest {
     @Test
     public void getOtpFail() throws InterruptedException {
         String s = "Hello";
-        long otp = otpService.generateOTP(s);
+        long otp = otpService.generateOTP(s.hashCode());
         logger.info("generated OTP: {}", otp);
         Thread.sleep(TimeUnit.SECONDS.toMillis(61));
         assertFalse(otpService.checkOtp(otp));

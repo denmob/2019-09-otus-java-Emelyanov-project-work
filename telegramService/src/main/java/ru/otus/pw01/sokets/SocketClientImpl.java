@@ -3,6 +3,8 @@ package ru.otus.pw01.sokets;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.telegram.telegrambots.meta.api.objects.Contact;
+import ru.otus.pw.library.mesages.CommandType;
 import ru.otus.pw.library.mesages.MessageTransport;
 import ru.otus.pw.library.misc.SerializeMessageTransport;
 import ru.otus.pw.library.mq.MqHandler;
@@ -81,11 +83,25 @@ public class SocketClientImpl implements SocketClient {
   }
 
   @Override
-  public void sendMessage(MessageTransport messageTransport) {
+  public void sendMessage(CommandType commandType,String from, Contact contact) {
     if (this.clientSocket != null) {
       try {
         if (clientSocket.isConnected()) {
           PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+          MessageTransport messageTransport;
+          switch (commandType){
+            case SAVE_USER_DATA: {
+                 messageTransport = new MessageTransport(from,"otpService",commandType);
+                 messageTransport.setData(new Gson().toJson(contact));
+                 break;
+            }
+            case GENERATE_OTP: {
+              messageTransport = new MessageTransport(from,"otpService",commandType);
+              break;
+            }
+            default:
+              throw new IllegalStateException("Unexpected value: " + commandType);
+          }
           String json = new Gson().toJson(messageTransport);
           out.println(json);
         }
@@ -95,8 +111,8 @@ public class SocketClientImpl implements SocketClient {
     } else logger.error("Socket client not registered");
   }
 
-  @Override
-  public MessageTransport receiveMessage() {
-      return  SerializeMessageTransport.deserializeBytes(mqHandler.getFromQueue());
-  }
+//  @Override
+//  public MessageTransport receiveMessage() {
+//      return  SerializeMessageTransport.deserializeBytes(mqHandler.getFromQueue());
+//  }
 }

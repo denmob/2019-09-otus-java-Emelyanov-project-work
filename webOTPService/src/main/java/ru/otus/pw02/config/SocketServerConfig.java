@@ -10,6 +10,7 @@ import ru.otus.pw.library.mq.MqHandlerImpl;
 import ru.otus.pw.library.service.MqService;
 import ru.otus.pw02.service.MqServiceImpl;
 import ru.otus.pw02.service.OtpService;
+import ru.otus.pw02.service.UserDataService;
 import ru.otus.pw02.sockets.SocketServer;
 import ru.otus.pw02.sockets.SocketServerImpl;
 
@@ -42,8 +43,8 @@ public class SocketServerConfig {
     }
 
     @Bean
-    public MqService mqService(SocketServer socketServer, MqHandler mqHandler, OtpService otpService) {
-        MqService mqService = new MqServiceImpl(socketServer,mqHandler,otpService);
+    public MqService mqService(SocketServer socketServer, MqHandler mqHandler, OtpService otpService, UserDataService userDataService) {
+        MqService mqService = new MqServiceImpl(socketServer,mqHandler,otpService,userDataService);
         mqService.start();
         return mqService;
     }

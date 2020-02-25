@@ -11,7 +11,7 @@ public interface TelegramUserService {
      * @param userID - telegramUserId
      * @return - instance of TelegramUser or null
      */
-    TelegramUser findUserByUserID(Long userID);
+    TelegramUser findTelegramUserByUserID(Long userID);
 
     /**
      * Searches TelegramUser by  phoneNumber in DB
@@ -19,14 +19,14 @@ public interface TelegramUserService {
      * @param phoneNumber - phoneNumber
      * @return - instance of TelegramUser or null
      */
-    TelegramUser findUserByPhoneNumber(String phoneNumber);
+    TelegramUser findTelegramUserByPhoneNumber(String phoneNumber);
 
     /**
      * Saves TelegramUser into DB if there no such user. Check by telegramUserId
      *
      * @param userToSave - user that need to be saved
      */
-    void saveUserIfNotExist(TelegramUser userToSave);
+    void saveTelegramUserIfNotExist(TelegramUser userToSave);
 
 }
 

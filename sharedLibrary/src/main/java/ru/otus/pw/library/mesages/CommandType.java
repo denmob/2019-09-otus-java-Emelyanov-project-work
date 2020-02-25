@@ -1,7 +1,11 @@
 package ru.otus.pw.library.mesages;
 
 public enum CommandType {
-  GENERATE_OTP("GenerateOTP");
+  GENERATE_OTP("GenerateOTP"),
+  SUCCESS_GENERATE_OTP("SuccessGeneratedOTP"),
+  SAVE_USER_DATA("SaveUserData"),
+  SUCCESS_SAVE_USER_DATA("SuccessSaveUserData"),
+  RESPONSE_WITH_ERROR("ResponseWithError");
 
   private final String value;
 

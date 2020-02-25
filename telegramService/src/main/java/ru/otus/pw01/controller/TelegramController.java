@@ -2,8 +2,6 @@ package ru.otus.pw01.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -19,8 +17,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.otus.pw.library.mesages.CommandType;
 import ru.otus.pw.library.mesages.MessageTransport;
-import ru.otus.pw.library.mq.MqHandler;
-import ru.otus.pw.library.service.MqService;
 import ru.otus.pw01.config.TelegramConfig;
 import ru.otus.pw01.model.AllowedUser;
 import ru.otus.pw01.service.AllowedUserService;
@@ -74,7 +70,7 @@ public class TelegramController extends TelegramLongPollingBot {
         if (receivedMessageText != null && receivedMessageText.equals(configTelegram.getGenerateOTPButtonText())) {
             SendMessage message = new SendMessage(chatId, configTelegram.getMessageWaitOTP());
             sendToUser(message);
-            socketClient.sendMessage(new MessageTransport(String.valueOf(chatId),"otpService", CommandType.GENERATE_OTP,String.valueOf(chatId)));
+            socketClient.sendMessage(CommandType.GENERATE_OTP,String.valueOf(chatId),null);
             return;
         }
 
@@ -83,6 +79,7 @@ public class TelegramController extends TelegramLongPollingBot {
             AllowedUser allowedUser = allowedUserService.findUserByPhoneNumber(contact.getPhoneNumber());
             if (allowedUser != null) {
                 processContact(contact, receivedMessage.getFrom());
+                socketClient.sendMessage(CommandType.SAVE_USER_DATA,String.valueOf(chatId),contact);
                 generateOTP(chatId);
             } else {
                 hideKeyboardButtons(chatId,configTelegram.getMessageNotAllowedPhoneNumber());
@@ -90,7 +87,7 @@ public class TelegramController extends TelegramLongPollingBot {
             return;
         }
 
-        TelegramUser user = telegramUserService.findUserByUserID(Long.valueOf(receivedMessage.getFrom().getId()));
+        TelegramUser user = telegramUserService.findTelegramUserByUserID(Long.valueOf(receivedMessage.getFrom().getId()));
         if (user != null) {
             generateOTP(chatId);
         } else {
@@ -162,13 +159,14 @@ public class TelegramController extends TelegramLongPollingBot {
 
     public void sendToUser(SendMessage message)  {
         try {
-            execute(message);
-            logger.debug("Sent message: {}", message);
+            if (message.getChatId() != null && message.getText()!=null) {
+                execute(message);
+                logger.debug("Sent message: {}", message);
+            }
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
         }
     }
-
 
     /**
      * Saves contact if it not exists
@@ -186,7 +184,7 @@ public class TelegramController extends TelegramLongPollingBot {
         newUser.setUserName(sender.getUserName());
         newUser.setBot(sender.getBot());
         newUser.setLanguageCode(sender.getLanguageCode());
-        telegramUserService.saveUserIfNotExist(newUser);
+        telegramUserService.saveTelegramUserIfNotExist(newUser);
     }
 
     /**
@@ -196,7 +194,7 @@ public class TelegramController extends TelegramLongPollingBot {
      * @param sender  - sender
      */
     private void processContact(Contact contact, User sender) {
-       TelegramUser user = telegramUserService.findUserByPhoneNumber(contact.getPhoneNumber());
+       TelegramUser user = telegramUserService.findTelegramUserByPhoneNumber(contact.getPhoneNumber());
         if (user == null) {
             saveContact(contact,sender);
         }
