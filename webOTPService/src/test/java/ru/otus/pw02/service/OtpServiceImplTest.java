@@ -8,9 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 @SpringBootTest
 public class OtpServiceImplTest {
@@ -43,6 +45,31 @@ public class OtpServiceImplTest {
         logger.info("generated OTP: {}", otp);
         Thread.sleep(TimeUnit.SECONDS.toMillis(61));
         assertFalse(otpService.checkOtp(otp));
+    }
+
+    @Test
+    public void getViewActualOTP1() {
+        otpService.generateOTP("123".hashCode());
+        otpService.generateOTP("345".hashCode());
+        otpService.generateOTP("567".hashCode());
+        Map<Integer, Long> actualOTP = otpService.getViewActualOTP();
+        for (Map.Entry<Integer, Long> entry : actualOTP.entrySet()) {
+            logger.debug(entry.getKey() + ":" + entry.getValue());
+        }
+        assertEquals(3, actualOTP.size());
+    }
+
+    @Test
+    public void getViewActualOTP2() {
+        String s ="123";
+        otpService.generateOTP(s.hashCode());
+        otpService.generateOTP(s.hashCode());
+        otpService.generateOTP(s.hashCode());
+        Map<Integer, Long> actualOTP = otpService.getViewActualOTP();
+        for (Map.Entry<Integer, Long> entry : actualOTP.entrySet()) {
+            logger.debug(entry.getKey() + ":" + entry.getValue());
+        }
+        assertEquals(1, actualOTP.size());
     }
 
 }

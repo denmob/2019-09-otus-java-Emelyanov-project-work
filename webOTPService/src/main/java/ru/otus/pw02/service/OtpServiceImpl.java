@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 
@@ -23,7 +26,7 @@ public class OtpServiceImpl implements OtpService{
         otpCache = CacheBuilder.newBuilder().
                 expireAfterWrite(expireMinutes, TimeUnit.MINUTES).build(new CacheLoader<>() {
             @Override
-            public Long load(Integer integer) throws Exception {
+            public Long load(Integer integer){
                 return 0L;
             }
         });
@@ -31,7 +34,7 @@ public class OtpServiceImpl implements OtpService{
 
     @Override
     public long generateOTP(int hash){
-         long otp = new Date().getTime() / TimeUnit.SECONDS.toMillis(30);
+        long otp = new Date().getTime() / TimeUnit.SECONDS.toMillis(30);
         otpCache.put(hash, otp);
         return otp;
     }
@@ -43,5 +46,14 @@ public class OtpServiceImpl implements OtpService{
         }catch (Exception e){
             return false;
         }
+    }
+
+    @Override
+    public Map<Integer, Long> getViewActualOTP() {
+        Map<Integer, Long> otpMap = new HashMap<>();
+        if (otpCache.size()>0) {
+            otpMap.putAll(otpCache.asMap());
+        }
+        return otpMap;
     }
 }

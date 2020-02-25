@@ -14,6 +14,7 @@ import ru.otus.pw02.service.UserDataService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class RestController {
@@ -27,16 +28,20 @@ public class RestController {
     private static final  String TEMPLATE_NAME_ERROR_PAGE = "errorPage";
     private static final  String TEMPLATE_NAME_ADMIN_PAGE = "adminPage";
     private static final  String TEMPLATE_NAME_LOGIN_PAGE = "loginPage";
+    private static final  String TEMPLATE_USER_DATA_PAGE = "userDataList";
+    private static final  String TEMPLATE_OTP_VIEW_PAGE = "otpView";
     private static final  String REDIRECT_TO_HOME = "redirect:/";
     private static final  String REDIRECT_TO_LOGIN_PAGE = "redirect:/login";
     private static final  String REDIRECT_TO_ADMIN_PAGE = "redirect:/admin/page";
 
-    @Autowired
-    private OtpService otpService;
+    private final OtpService otpService;
 
-    @Autowired
-    private UserDataService userDataService;
+    private final UserDataService userDataService;
 
+    public RestController(OtpService otpService, UserDataService userDataService) {
+        this.otpService = otpService;
+        this.userDataService = userDataService;
+    }
 
     @GetMapping(path="/")
     public String index(HttpServletRequest request) {
@@ -70,7 +75,13 @@ public class RestController {
     @PostMapping(path = "/login")
     public String doLogin(HttpServletRequest request, @RequestParam(defaultValue = "") String otp) {
         logger.debug("doLogin otp:{}",otp);
-        if (otpService.checkOtp(Long.parseLong(otp))) {
+        boolean validOtp = false;
+        try {
+            validOtp = otpService.checkOtp(Long.parseLong(otp));
+        }catch (Exception e) {
+            logger.error(e.getMessage(),e);
+        }
+        if (validOtp) {
             request.getSession().setAttribute(ATTR_OTP, otp);
             return REDIRECT_TO_HOME;
         } else {
@@ -90,12 +101,22 @@ public class RestController {
     }
 
     @GetMapping({"/userData/list"})
-    public String userListView(Model model) {
+    public String userDataListView(Model model) {
         List<UserData> usersData = userDataService.getAllUserData();
         for (UserData userData:usersData) {
             logger.debug(userData.toString());
         }
         model.addAttribute("usersData", usersData);
-        return "userDataList";
+        return TEMPLATE_USER_DATA_PAGE;
+    }
+
+    @GetMapping({"/otp/list"})
+    public String otpListView(Model model) {
+        Map<Integer, Long> actualOTP = otpService.getViewActualOTP();
+        for (Map.Entry<Integer, Long> entry : actualOTP.entrySet()) {
+            logger.debug(entry.getKey() + ":" + entry.getValue());
+        }
+        model.addAttribute("otpMap", actualOTP);
+        return TEMPLATE_OTP_VIEW_PAGE;
     }
 }
