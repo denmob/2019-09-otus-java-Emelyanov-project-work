@@ -90,15 +90,13 @@ public class SocketClientImpl implements SocketClient {
           PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
           MessageTransport messageTransport;
           switch (commandType){
-            case SAVE_USER_DATA: {
-                 messageTransport = new MessageTransport(from,"otpService",commandType);
-                 messageTransport.setData(new Gson().toJson(contact));
-                 break;
-            }
-            case GENERATE_OTP: {
+            case SAVE_USER_DATA:
+              messageTransport = new MessageTransport(from,"otpService",commandType);
+              messageTransport.setData(new Gson().toJson(contact));
+              break;
+            case GENERATE_OTP:
               messageTransport = new MessageTransport(from,"otpService",commandType);
               break;
-            }
             default:
               throw new IllegalStateException("Unexpected value: " + commandType);
           }
@@ -110,9 +108,4 @@ public class SocketClientImpl implements SocketClient {
       }
     } else logger.error("Socket client not registered");
   }
-
-//  @Override
-//  public MessageTransport receiveMessage() {
-//      return  SerializeMessageTransport.deserializeBytes(mqHandler.getFromQueue());
-//  }
 }

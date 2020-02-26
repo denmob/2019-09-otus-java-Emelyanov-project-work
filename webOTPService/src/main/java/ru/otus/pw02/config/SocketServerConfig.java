@@ -48,6 +48,4 @@ public class SocketServerConfig {
         mqService.start();
         return mqService;
     }
-
-
 }

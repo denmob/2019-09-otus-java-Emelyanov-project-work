@@ -10,23 +10,23 @@ public class SerializeMessageTransport {
 
     private static Logger logger = LoggerFactory.getLogger(SerializeMessageTransport.class);
 
-    private SerializeMessageTransport() {
-    }
+    private SerializeMessageTransport() { }
 
     public static byte[] serializeObject(MessageTransport messageTransport) {
+        byte[] bytes = null;
         try {
             ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(bytesOut);
             oos.writeObject(messageTransport);
             oos.flush();
-            byte[] bytes = bytesOut.toByteArray();
+            bytes = bytesOut.toByteArray();
             bytesOut.close();
             oos.close();
             return bytes;
         } catch (IOException e) {
             logger.error(e.getMessage(),e);
         }
-        return null;
+        return bytes;
     }
 
     public static MessageTransport deserializeBytes(byte[] bytes) {

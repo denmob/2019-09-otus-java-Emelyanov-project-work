@@ -10,29 +10,25 @@ public class MessageTransport implements Serializable {
 
   private final UUID id = UUID.randomUUID();
   private final CommandType command;
-  private  Object data;
+  private Object data;
   private final String from;
   private final String to;
 
   public CommandType getCommand() {
     return command;
   }
-
   public void setData(Object data) {
     this.data = data;
   }
-
   public Object getData() {
     return data;
   }
   public String getFrom() {
     return from;
   }
-
   public String getTo() {
     return to;
   }
-
 
   public MessageTransport(String from, String to, CommandType command) {
     this.from = from;

@@ -1,7 +1,5 @@
 package ru.otus.pw01.service;
 
-
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.pw01.model.TelegramUser;
@@ -9,8 +7,6 @@ import ru.otus.pw01.repository.TelegramUserRepository;
 
 @Service
 public class TelegramUserServiceImpl implements TelegramUserService {
-
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(TelegramUserServiceImpl.class);
 
     private final TelegramUserRepository telegramUserRepository;
 

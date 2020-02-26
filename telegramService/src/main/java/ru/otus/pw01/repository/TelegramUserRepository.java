@@ -6,7 +6,7 @@ import ru.otus.pw01.model.TelegramUser;
 
 @Repository
 public interface TelegramUserRepository extends MongoRepository<TelegramUser, String> {
-    TelegramUser findTelegramUserByUserId(Long telegramUserId);
 
+    TelegramUser findTelegramUserByUserId(Long telegramUserId);
     TelegramUser findTelegramUserByPhoneNumber(String phoneNumber);
 }

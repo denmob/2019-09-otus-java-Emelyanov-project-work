@@ -1,7 +1,6 @@
 package ru.otus.pw02.service;
 
 import com.google.gson.Gson;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.pw.library.mesages.CommandType;
@@ -63,28 +62,27 @@ public class MqServiceImpl implements MqService {
 
     @Override
     public void handleMessage(MessageTransport messageTransport) {
+        MessageTransport messageTransportResponse;
+        UserData userData;
         try {
-            MessageTransport messageTransportResponse;
             logger.debug("messageTransportRequest: {} ",messageTransport);
             logger.debug("messageTransport.getCommand(): {} ",messageTransport.getCommand());
             switch (messageTransport.getCommand()){
-                case GENERATE_OTP:{
-                   UserData userData =userDataService.findUserDataByUserId(Long.parseLong(messageTransport.getFrom()));
+                case GENERATE_OTP:
+                    userData =userDataService.findUserDataByUserId(Long.parseLong(messageTransport.getFrom()));
                     if (userData != null) {
                          messageTransportResponse =
                                 new MessageTransport(messageTransport.getTo(), messageTransport.getFrom(), CommandType.SUCCESS_GENERATE_OTP);
                         long otp = otpService.generateOTP(userData.hashCode());
                         messageTransportResponse.setData(new Gson().toJson(otp));
                     } else {
-                         messageTransportResponse =
+                        messageTransportResponse =
                                 new MessageTransport(messageTransport.getTo(), messageTransport.getFrom(), CommandType.RESPONSE_WITH_ERROR);
                         messageTransportResponse.setData("UserData not found.");
                     }
                     break;
-                }
-                case SAVE_USER_DATA:{
-                    try {
-                        UserData userData = new Gson().fromJson((String) messageTransport.getData(), UserData.class);
+                case SAVE_USER_DATA:
+                         userData = new Gson().fromJson((String) messageTransport.getData(), UserData.class);
                         if (userData != null) {
                             logger.debug("userData: {}",userData);
                             userDataService.saveUserDataIfNotExist(userData);
@@ -95,24 +93,20 @@ public class MqServiceImpl implements MqService {
                                     new MessageTransport(messageTransport.getTo(), messageTransport.getFrom(), CommandType.RESPONSE_WITH_ERROR);
                             messageTransportResponse.setData("messageTransport.Data incorrect or not userData");
                         }
-                    }catch (Exception e) {
-                        logger.error(e.getMessage(),e);
-                        messageTransportResponse =
-                                new MessageTransport(messageTransport.getTo(), messageTransport.getFrom(), CommandType.RESPONSE_WITH_ERROR);
-                        messageTransportResponse.setData(e.getMessage());
-                    }
+
                     break;
-                }
                 default:
                     messageTransportResponse =
                             new MessageTransport(messageTransport.getTo(), messageTransport.getFrom(), CommandType.RESPONSE_WITH_ERROR);
                     messageTransportResponse.setData("Unexpected value: " + messageTransport.getCommand());
             }
-
-            logger.debug("messageTransportResponse: {} ",messageTransportResponse);
-            socketServer.sendMessage(messageTransportResponse);
-        } catch (Exception ex) {
-            logger.error(ex.getMessage(), ex);
+        }catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            messageTransportResponse =
+                    new MessageTransport(messageTransport.getTo(), messageTransport.getFrom(), CommandType.RESPONSE_WITH_ERROR);
+            messageTransportResponse.setData(e.getMessage());
         }
+        logger.debug("messageTransportResponse: {} ",messageTransportResponse);
+        socketServer.sendMessage(messageTransportResponse);
     }
 }

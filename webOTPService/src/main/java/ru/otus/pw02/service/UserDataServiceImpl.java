@@ -11,8 +11,6 @@ import java.util.List;
 @Service
 public class UserDataServiceImpl implements UserDataService {
 
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private final UserDataRepository userDataRepository;
 
     public UserDataServiceImpl(UserDataRepository userDataRepository) {

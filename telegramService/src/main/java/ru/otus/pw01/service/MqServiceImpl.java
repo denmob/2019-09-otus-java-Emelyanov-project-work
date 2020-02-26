@@ -3,8 +3,6 @@ package ru.otus.pw01.service;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.otus.pw.library.mesages.MessageTransport;
 import ru.otus.pw.library.misc.SerializeMessageTransport;
@@ -13,12 +11,9 @@ import ru.otus.pw.library.service.MqService;
 import ru.otus.pw01.controller.TelegramController;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static ru.otus.pw.library.mesages.CommandType.SUCCESS_SAVE_USER_DATA;
-
 
 public class MqServiceImpl implements MqService {
 
@@ -72,23 +67,18 @@ public class MqServiceImpl implements MqService {
             SendMessage message = new SendMessage();
             message.setChatId(messageTransport.getTo());
             switch (messageTransport.getCommand()){
-                case SUCCESS_GENERATE_OTP:{
-                    message.setParseMode(ParseMode.HTML);
+                case SUCCESS_GENERATE_OTP:
                     long otp = new Gson().fromJson((String) messageTransport.getData(),Long.class);
                     String url = String.format("http://%s:%s/login?otpValue=%S",httpHost,httpPort,otp);
-                    String urlTag = String.format("<a href=\"%s\"> %s </a>", url,url);
-                    message.setText(urlTag);
+                    message.setText(url);
                     break;
-                }
-                case SUCCESS_SAVE_USER_DATA:{
+                case SUCCESS_SAVE_USER_DATA:
                     logger.debug("handleMessage messageTransport with {}",SUCCESS_SAVE_USER_DATA.getValue());
                     break;
-                }
-                case RESPONSE_WITH_ERROR:{
+                case RESPONSE_WITH_ERROR:
                     String responseMessage = new Gson().fromJson((String) messageTransport.getData(),String.class);
                     message.setText(responseMessage);
                     break;
-                }
                 default:
                     throw new IllegalStateException("Unexpected value: " + messageTransport.getCommand());
             }

@@ -60,5 +60,4 @@ public class ProcessRunnerConfig {
         commands.add(telegramServiceStartCommand);
         return commands;
     }
-
 }

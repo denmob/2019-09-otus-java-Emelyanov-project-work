@@ -32,6 +32,7 @@ class SerializeMessageTransportByteTest {
 
         MessageTransport messageTransportActual = SerializeMessageTransport.deserializeBytes(serializeMT);
 
+        assert messageTransportActual != null;
         assertEquals(messageTransportExpected.toString(),messageTransportActual.toString());
     }
 }

@@ -16,7 +16,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.otus.pw.library.mesages.CommandType;
-import ru.otus.pw.library.mesages.MessageTransport;
 import ru.otus.pw01.config.TelegramConfig;
 import ru.otus.pw01.model.AllowedUser;
 import ru.otus.pw01.service.AllowedUserService;
@@ -24,7 +23,6 @@ import ru.otus.pw01.service.ButtonType;
 import ru.otus.pw01.model.TelegramUser;
 import ru.otus.pw01.service.TelegramUserService;
 import ru.otus.pw01.sokets.SocketClient;
-
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
@@ -180,7 +178,6 @@ public class TelegramController extends TelegramLongPollingBot {
         newUser.setFirstName(contact.getFirstName());
         newUser.setLastName(contact.getLastName());
         newUser.setPhoneNumber(contact.getPhoneNumber());
-        newUser.setvCard(contact.getVCard());
         newUser.setUserName(sender.getUserName());
         newUser.setBot(sender.getBot());
         newUser.setLanguageCode(sender.getLanguageCode());

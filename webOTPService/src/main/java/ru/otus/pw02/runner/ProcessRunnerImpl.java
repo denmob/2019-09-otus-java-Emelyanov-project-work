@@ -2,7 +2,6 @@ package ru.otus.pw02.runner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,11 +16,6 @@ public class ProcessRunnerImpl implements ProcessRunner {
     @Override
     public void start(String command) throws IOException {
         process = runProcess(command);
-        try {
-            Thread.sleep(1000L);
-        } catch (InterruptedException e) {
-            logger.error(e.getMessage(),e);
-        }
         logger.info("process info: {} isAlive:{}", process.info(), process.isAlive() );
     }
 
@@ -41,7 +35,6 @@ public class ProcessRunnerImpl implements ProcessRunner {
         logger.info("process info: {} isAlive:{}", process.info(), process.isAlive() );
         return process;
     }
-
 
     private class StreamListener extends Thread {
         private final InputStream inputStream;

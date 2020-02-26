@@ -10,6 +10,5 @@ import java.util.List;
 public interface UserDataRepository extends MongoRepository<UserData, String> {
 
     UserData findUserDataByUserID(Long userID);
-
     List<UserData> findAll();
 }

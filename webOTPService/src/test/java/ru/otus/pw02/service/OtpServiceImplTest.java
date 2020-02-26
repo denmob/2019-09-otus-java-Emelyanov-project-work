@@ -1,13 +1,9 @@
 package ru.otus.pw02.service;
 
 import org.junit.Test;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 

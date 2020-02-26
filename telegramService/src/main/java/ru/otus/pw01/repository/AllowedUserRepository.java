@@ -8,5 +8,4 @@ import ru.otus.pw01.model.AllowedUser;
 public interface AllowedUserRepository extends MongoRepository<AllowedUser, String> {
 
     AllowedUser findAllowedUserByPhoneNumber(String phoneNumber);
-
 }

@@ -18,30 +18,6 @@ public class AllowedUser {
     @Field("phone_number")
     private String phoneNumber;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPhone() {
-        return phoneNumber;
-    }
-
-    public void setPhone(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     @Override
     public String toString() {
         return "AllowedUser{" +
@@ -57,13 +33,11 @@ public class AllowedUser {
         AllowedUser that = (AllowedUser) o;
         return  id.equals(that.id) &&
                 userName.equals(that.userName) &&
-                phoneNumber.equals(that.phoneNumber)
-                ;
+                phoneNumber.equals(that.phoneNumber);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, userName, phoneNumber);
     }
-
 }
