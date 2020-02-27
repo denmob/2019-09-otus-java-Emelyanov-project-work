@@ -26,16 +26,13 @@ public class ProcessRunnerConfig {
     @Value("${telegramServiceStartCommand}")
     private String telegramServiceStartCommand;
 
-    @Value("${clientsNumber:1}")
-    private int clientsNumber;
-
     @Value("${clientStartDelaySec:5}")
     private int clientStartDelaySec;
 
     @Bean
     public void runClients() {
         logger.debug("telegramServiceStartCommand: {}", telegramServiceStartCommand);
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(clientsNumber);
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         startClient(executorService, getCommands());
         executorService.shutdown();
     }

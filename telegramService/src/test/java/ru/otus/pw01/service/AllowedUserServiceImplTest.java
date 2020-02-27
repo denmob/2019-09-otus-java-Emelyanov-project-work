@@ -19,14 +19,14 @@ public class AllowedUserServiceImplTest extends RegTelegramApi {
     private AllowedUserService allowedUserService;
 
     @Test
-    public void findUserByPhoneNumberNotNull() {
-        AllowedUser allowedUser = allowedUserService.findUserByPhoneNumber("380937188891");
+    public void findAllowedUserByPhoneNumberNotNull() {
+        AllowedUser allowedUser = allowedUserService.findAllowedUserByPhoneNumber("380937188891");
         assertNotNull(allowedUser);
     }
 
     @Test
-    public void findUserByPhoneNumberNull() {
-        AllowedUser allowedUser = allowedUserService.findUserByPhoneNumber("xxxxxx");
+    public void findAllowedUserByPhoneNumberNull() {
+        AllowedUser allowedUser = allowedUserService.findAllowedUserByPhoneNumber("xxxxxx");
         assertNull(allowedUser);
     }
 }

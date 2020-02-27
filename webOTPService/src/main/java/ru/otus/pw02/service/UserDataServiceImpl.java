@@ -41,6 +41,10 @@ public class UserDataServiceImpl implements UserDataService {
         }
     }
 
+    /**
+     * Get all UserData in DB
+     * @return list UserData
+     */
     @Override
     public List<UserData> getAllUserData() {
         return userDataRepository.findAll();

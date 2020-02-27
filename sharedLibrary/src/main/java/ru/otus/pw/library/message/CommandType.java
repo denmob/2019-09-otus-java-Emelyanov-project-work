@@ -1,4 +1,4 @@
-package ru.otus.pw.library.mesages;
+package ru.otus.pw.library.message;
 
 public enum CommandType {
   GENERATE_OTP("GenerateOTP"),

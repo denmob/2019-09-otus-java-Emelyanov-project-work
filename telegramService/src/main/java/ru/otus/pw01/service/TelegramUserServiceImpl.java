@@ -25,6 +25,12 @@ public class TelegramUserServiceImpl implements TelegramUserService {
         return telegramUserRepository.findTelegramUserByUserId(userID);
     }
 
+    /**
+     * Searches TelegramUser by  phoneNumber in DB
+     *
+     * @param phoneNumber - phoneNumber
+     * @return - instance of TelegramUser or null
+     */
     @Override
     public TelegramUser findTelegramUserByPhoneNumber(String phoneNumber) {
         return telegramUserRepository.findTelegramUserByPhoneNumber(phoneNumber);

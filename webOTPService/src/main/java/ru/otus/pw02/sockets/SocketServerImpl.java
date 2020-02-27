@@ -3,7 +3,7 @@ package ru.otus.pw02.sockets;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.pw.library.mesages.MessageTransport;
+import ru.otus.pw.library.message.MessageTransport;
 import ru.otus.pw.library.mq.MqHandler;
 import ru.otus.pw.library.handshake.HandShake;
 import ru.otus.pw.library.misc.SerializeMessageTransport;
@@ -67,7 +67,7 @@ public class SocketServerImpl implements SocketServer {
         } else {
           MessageTransport messageTransport = new Gson().fromJson(inputLine, MessageTransport.class);
           logger.debug("messageTransport: {}", messageTransport);
-          mqHandler.putToQueue(SerializeMessageTransport.serializeObject(messageTransport));
+          mqHandler.putToQueue(SerializeMessageTransport.serializeMessageTransportToByteArray(messageTransport));
         }
       }
     } catch(Exception ex){

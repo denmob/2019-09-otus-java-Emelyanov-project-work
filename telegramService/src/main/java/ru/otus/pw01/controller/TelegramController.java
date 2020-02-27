@@ -15,11 +15,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRem
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.otus.pw.library.mesages.CommandType;
+import ru.otus.pw.library.message.CommandType;
 import ru.otus.pw01.config.TelegramConfig;
 import ru.otus.pw01.model.AllowedUser;
 import ru.otus.pw01.service.AllowedUserService;
-import ru.otus.pw01.service.ButtonType;
 import ru.otus.pw01.model.TelegramUser;
 import ru.otus.pw01.service.TelegramUserService;
 import ru.otus.pw01.sokets.SocketClient;
@@ -74,7 +73,7 @@ public class TelegramController extends TelegramLongPollingBot {
 
         Contact contact = receivedMessage.getContact();
         if (contact != null) {
-            AllowedUser allowedUser = allowedUserService.findUserByPhoneNumber(contact.getPhoneNumber());
+            AllowedUser allowedUser = allowedUserService.findAllowedUserByPhoneNumber(contact.getPhoneNumber());
             if (allowedUser != null) {
                 processContact(contact, receivedMessage.getFrom());
                 socketClient.sendMessage(CommandType.SAVE_USER_DATA,String.valueOf(chatId),contact);
@@ -196,4 +195,20 @@ public class TelegramController extends TelegramLongPollingBot {
             saveContact(contact,sender);
         }
     }
+
+    enum ButtonType {
+        REQUEST_CONTACT("RequestContact"),
+        REQUEST_TEXT("RequestText");
+
+        private final String value;
+
+        ButtonType(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
 }

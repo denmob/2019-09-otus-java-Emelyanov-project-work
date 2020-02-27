@@ -1,4 +1,4 @@
-package ru.otus.pw.library.mesages;
+package ru.otus.pw.library.message;
 
 import java.io.Serializable;
 import java.util.Objects;

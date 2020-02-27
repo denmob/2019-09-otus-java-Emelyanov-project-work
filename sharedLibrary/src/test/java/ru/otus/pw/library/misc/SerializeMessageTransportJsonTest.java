@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.pw.library.mesages.CommandType;
-import ru.otus.pw.library.mesages.MessageTransport;
+import ru.otus.pw.library.message.CommandType;
+import ru.otus.pw.library.message.MessageTransport;
 import ru.otus.pw.library.model.UserData;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

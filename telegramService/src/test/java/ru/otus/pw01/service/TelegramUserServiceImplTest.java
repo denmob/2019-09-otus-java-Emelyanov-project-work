@@ -39,14 +39,14 @@ public class TelegramUserServiceImplTest  extends RegTelegramApi {
 
     @Test
     @Order(2)
-    public void findUserByPhoneNumberNotNull() {
+    public void findTelegramUserByPhoneNumberNotNull() {
         TelegramUser telegramUser = telegramUserService.findTelegramUserByPhoneNumber(DEV_ALLOW_USER_PHONE_NUMBER_SET);
         assertNotNull(telegramUser);
     }
 
     @Test
     @Order(3)
-    public void findUserByPhoneNumberNull() {
+    public void findTelegramUserByPhoneNumberNull() {
         TelegramUser telegramUser = telegramUserService.findTelegramUserByPhoneNumber("xxxxxx");
         assertNull(telegramUser);
     }

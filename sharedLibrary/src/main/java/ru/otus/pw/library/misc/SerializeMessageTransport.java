@@ -2,7 +2,7 @@ package ru.otus.pw.library.misc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.pw.library.mesages.MessageTransport;
+import ru.otus.pw.library.message.MessageTransport;
 
 import java.io.*;
 
@@ -12,7 +12,7 @@ public class SerializeMessageTransport {
 
     private SerializeMessageTransport() { }
 
-    public static byte[] serializeObject(MessageTransport messageTransport) {
+    public static byte[] serializeMessageTransportToByteArray(MessageTransport messageTransport) {
         byte[] bytes = null;
         try {
             ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
@@ -29,7 +29,7 @@ public class SerializeMessageTransport {
         return bytes;
     }
 
-    public static MessageTransport deserializeBytes(byte[] bytes) {
+    public static MessageTransport deserializeByteArrayToMessageTransport(byte[] bytes) {
         try {
             ByteArrayInputStream bytesIn = new ByteArrayInputStream(bytes);
             ObjectInputStream ois = new ObjectInputStream(bytesIn);

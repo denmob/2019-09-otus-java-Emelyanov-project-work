@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.objects.Contact;
-import ru.otus.pw.library.mesages.CommandType;
-import ru.otus.pw.library.mesages.MessageTransport;
+import ru.otus.pw.library.message.CommandType;
+import ru.otus.pw.library.message.MessageTransport;
 import ru.otus.pw.library.misc.SerializeMessageTransport;
 import ru.otus.pw.library.mq.MqHandler;
 import ru.otus.pw.library.handshake.HandShake;
@@ -31,7 +31,7 @@ public class SocketClientImpl implements SocketClient {
     }
   }
 
-  private void registrationOnOTPService() {
+  private void registrationSocketServer() {
     try {
       if (clientSocket.isConnected()) {
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -42,7 +42,7 @@ public class SocketClientImpl implements SocketClient {
         String response = new Gson().fromJson(in.readLine(), String.class);
         if (response.equals(HandShake.REGISTRATION_SUCCESS.getValue())) {
           logger.info("client registration successful");
-          executorServer.execute(this::response);
+          executorServer.execute(this::clientHandler);
         } else {
           logger.error(HandShake.REGISTRATION_FAIL.getValue());
         }
@@ -52,7 +52,7 @@ public class SocketClientImpl implements SocketClient {
     }
   }
 
-  private void response() {
+  private void clientHandler() {
     try {
       while (clientSocket.isConnected()) {
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -60,7 +60,7 @@ public class SocketClientImpl implements SocketClient {
         if (resp!= null) {
           logger.info("server response: {}", resp);
           MessageTransport messageOut = new Gson().fromJson(resp, MessageTransport.class);
-          mqHandler.putToQueue(SerializeMessageTransport.serializeObject(messageOut));
+          mqHandler.putToQueue(SerializeMessageTransport.serializeMessageTransportToByteArray(messageOut));
         }
       }
     } catch (Exception ex) {
@@ -70,7 +70,7 @@ public class SocketClientImpl implements SocketClient {
 
   @Override
   public void start() {
-    registrationOnOTPService();
+    registrationSocketServer();
   }
 
   @Override

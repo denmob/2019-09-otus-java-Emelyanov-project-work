@@ -1,6 +1,6 @@
 package ru.otus.pw.library.service;
 
-import ru.otus.pw.library.mesages.MessageTransport;
+import ru.otus.pw.library.message.MessageTransport;
 
 public interface MqService {
 

@@ -26,8 +26,8 @@ public class RestController {
     private static final  String TEMPLATE_NAME_ERROR_PAGE = "errorPage";
     private static final  String TEMPLATE_NAME_ADMIN_PAGE = "adminPage";
     private static final  String TEMPLATE_NAME_LOGIN_PAGE = "loginPage";
-    private static final  String TEMPLATE_USER_DATA_PAGE = "userDataList";
-    private static final  String TEMPLATE_OTP_VIEW_PAGE = "otpView";
+    private static final  String TEMPLATE_USER_DATA_PAGE = "userDataPage";
+    private static final  String TEMPLATE_OTP_VIEW_PAGE = "otpViewPage";
     private static final  String REDIRECT_TO_HOME = "redirect:/";
     private static final  String REDIRECT_TO_LOGIN_PAGE = "redirect:/login";
     private static final  String REDIRECT_TO_ADMIN_PAGE = "redirect:/admin/page";

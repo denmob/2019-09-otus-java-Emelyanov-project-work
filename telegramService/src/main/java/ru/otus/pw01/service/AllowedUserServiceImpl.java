@@ -13,8 +13,14 @@ public class AllowedUserServiceImpl implements AllowedUserService{
         this.allowedUserRepository = allowedUserRepository;
     }
 
+    /**
+     * Searches AllowedUser by  phoneNumber in DB
+     *
+     * @param phoneNumber - phoneNumber
+     * @return - instance of AllowedUser or null
+     */
     @Override
-    public AllowedUser findUserByPhoneNumber(String phoneNumber) {
+    public AllowedUser findAllowedUserByPhoneNumber(String phoneNumber) {
         return allowedUserRepository.findAllowedUserByPhoneNumber(phoneNumber);
     }
 }

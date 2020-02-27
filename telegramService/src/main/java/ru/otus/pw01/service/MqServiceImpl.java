@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import ru.otus.pw.library.mesages.MessageTransport;
+import ru.otus.pw.library.message.MessageTransport;
 import ru.otus.pw.library.misc.SerializeMessageTransport;
 import ru.otus.pw.library.mq.MqHandler;
 import ru.otus.pw.library.service.MqService;
@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static ru.otus.pw.library.mesages.CommandType.SUCCESS_SAVE_USER_DATA;
+import static ru.otus.pw.library.message.CommandType.SUCCESS_SAVE_USER_DATA;
 
 public class MqServiceImpl implements MqService {
 
@@ -50,7 +50,7 @@ public class MqServiceImpl implements MqService {
         while (runFlag.get()) {
                 byte[] data = mqHandler.getFromQueue();
                 if (data != null) {
-                    MessageTransport messageTransport = SerializeMessageTransport.deserializeBytes(data);
+                    MessageTransport messageTransport = SerializeMessageTransport.deserializeByteArrayToMessageTransport(data);
                     if (messageTransport != null) {
                         msgHandler.submit(() -> {
                             logger.debug("msgHandler submit message: {} ", messageTransport);

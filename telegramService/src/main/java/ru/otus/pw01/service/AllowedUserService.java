@@ -10,5 +10,5 @@ public interface AllowedUserService {
      * @param phoneNumber - phoneNumber
      * @return - instance of AllowedUser or null
      */
-    AllowedUser findUserByPhoneNumber(String phoneNumber);
+    AllowedUser findAllowedUserByPhoneNumber(String phoneNumber);
 }

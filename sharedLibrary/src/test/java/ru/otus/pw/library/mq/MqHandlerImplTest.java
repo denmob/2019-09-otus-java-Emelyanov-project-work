@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 public class MqHandlerImplTest {
 
     private static Logger logger = LoggerFactory.getLogger(MqHandlerImplTest.class);
-    private final MqHandler mqHandler = new MqHandlerImpl("localhost",5672,"QUEUE_DATA_OPT_SERVICE");
+    private final static MqHandler mqHandler = new MqHandlerImpl("localhost",5672,"QUEUE_DATA");
     private final static int COUNT_MESSAGE_FOR_TEST = 10;
 
     @Test()
