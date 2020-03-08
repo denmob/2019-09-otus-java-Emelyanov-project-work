@@ -1,0 +1,36 @@
+db:
+    mongoDBHost: 127.0.0.1
+    mongoDBName: pw01
+    user:
+        allow:
+            name1: User1
+            phone1: +380937188891
+            name2: User2
+            phone2: 380937188891
+            name3: User3
+            phone3: 80937188891
+
+telegram:
+    botToken: 947622852:AAGhKz4UeSKubfTR0HCbW-cGwXqDjYKirT0
+    botName: build_otp_bot
+    registrationChatMessage: Hello! Please send your contact for registration to service
+    registrationButtonText: Send contact data
+    generateOTPChatMessage: Press a button to generate the next OTP
+    generateOTPButtonText: Generate one-time password
+    messageWaitOTP: Wait for receive one-time password (response time <1 min)
+    messageNotAllowedPhoneNumber: Sorry this phoneNumber not allowed for registration!
+
+
+connection:
+    socketHost: localhost
+    socketPort: 8001
+    httpHost: localhost
+    httpPort: 8080
+    rabbitMqHost: localhost
+    rabbitMqPort: 5672
+
+mq:
+    queueDataName: telegramService
+
+
+
