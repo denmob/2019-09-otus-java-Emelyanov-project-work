@@ -55,11 +55,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>otus-java</groupId>
-            <artifactId>sharedLibrary</artifactId>
-            <version>${sharedLibrary.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

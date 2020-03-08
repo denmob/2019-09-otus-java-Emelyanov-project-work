@@ -54,11 +54,6 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
-            <groupId>otus-java</groupId>
-            <artifactId>sharedLibrary</artifactId>
-            <version>${sharedLibrary.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
