@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 public class SocketServerImpl implements SocketServer {
   private static Logger logger = LoggerFactory.getLogger(SocketServerImpl.class);
   private final int socketPort;
-  private final ExecutorService executorServer = Executors.newScheduledThreadPool(5);
+  private final ExecutorService executorServer = Executors.newScheduledThreadPool(2);
   private boolean running = false;
   private final MqHandler mqHandler;
   private Socket socketClient;
@@ -64,7 +64,8 @@ public class SocketServerImpl implements SocketServer {
           String responseMessage = registrationSocketClient(clientSocket, inputLine);
           logger.debug("responseMessage: {}",responseMessage);
           out.println(responseMessage);
-        } else {
+        } else
+            if (this.socketClient==clientSocket) {
           MessageTransport messageTransport = new Gson().fromJson(inputLine, MessageTransport.class);
           logger.debug("messageTransport: {}", messageTransport);
           mqHandler.putToQueue(SerializeMessageTransport.serializeMessageTransportToByteArray(messageTransport));
@@ -72,6 +73,7 @@ public class SocketServerImpl implements SocketServer {
       }
     } catch(Exception ex){
         logger.error(ex.getMessage(), ex);
+        if (ex.getMessage().contains("Connection reset")) this.socketClient = null;
     }
   }
 

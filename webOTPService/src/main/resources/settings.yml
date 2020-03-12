@@ -4,7 +4,8 @@ db:
 
 runner:
 #  telegramServiceStartCommand: java -jar F:\\Documents\\java\\2019-09-otus-java-Emelyanov-project-work\\telegramService\\target\\telegramService-1.0-SNAPSHOT.jar
-  telegramServiceStartCommand: java -jar C:\\Users\\d.yemelianov\\Documents\\java\\2019-09-otus-java-Emelyanov-project-work\\telegramService\\target\\telegramService-1.0-SNAPSHOT.jar
+#  telegramServiceStartCommand: java -jar C:\\Users\\d.yemelianov\\Documents\\java\\2019-09-otus-java-Emelyanov-project-work\\telegramService\\target\\telegramService-1.0-SNAPSHOT.jar
+  telegramServiceStartCommand:
 
 connection:
   socketPort: 8001

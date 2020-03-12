@@ -8,6 +8,8 @@ import org.springframework.context.annotation.PropertySource;
 import ru.otus.pw02.service.OtpService;
 import ru.otus.pw02.service.OtpServiceImpl;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 @ConfigurationProperties(prefix="otp")
 @PropertySource("settings.yml")
@@ -18,6 +20,6 @@ public class OtpServiceConfig {
 
     @Bean
     public OtpService otpService() {
-        return new OtpServiceImpl(expireMin);
+        return new OtpServiceImpl(expireMin, TimeUnit.MINUTES);
     }
 }

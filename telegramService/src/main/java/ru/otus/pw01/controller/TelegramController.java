@@ -25,6 +25,9 @@ import ru.otus.pw01.sokets.SocketClient;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Controller
 public class TelegramController extends TelegramLongPollingBot {
@@ -59,6 +62,8 @@ public class TelegramController extends TelegramLongPollingBot {
         String receivedMessageText = receivedMessage.getText();
         long chatId = receivedMessage.getChatId();
 
+        if (receivedMessageText != null) logger.debug("onUpdateReceived with: {}",receivedMessageText);
+
         if (receivedMessageText != null && receivedMessageText.equals(configTelegram.getRegistrationButtonText())) {
             registerUser(chatId);
             return;
@@ -84,8 +89,8 @@ public class TelegramController extends TelegramLongPollingBot {
             return;
         }
 
-        TelegramUser user = telegramUserService.findTelegramUserByUserID(Long.valueOf(receivedMessage.getFrom().getId()));
-        if (user != null) {
+        TelegramUser  telegramUser = telegramUserService.findTelegramUserByUserID(Long.valueOf(receivedMessage.getFrom().getId()));
+        if (telegramUser != null) {
             generateOTP(chatId);
         } else {
             registerUser(chatId);
@@ -93,7 +98,7 @@ public class TelegramController extends TelegramLongPollingBot {
     }
 
     /**
-     * Deletes keyboard wich all buttons
+     * Deletes keyboard witch all buttons
      *
      * @param chatId      - target chat id
      * @param messageText - message text

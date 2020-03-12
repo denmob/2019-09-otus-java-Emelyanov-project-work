@@ -21,6 +21,7 @@ public class SocketClientImpl implements SocketClient {
   private Socket clientSocket;
   private final MqHandler mqHandler;
   private final ExecutorService executorServer = Executors.newSingleThreadExecutor();
+  private final ExecutorService executorSender = Executors.newSingleThreadExecutor();
 
   public SocketClientImpl(String host, int port, MqHandler mqHandler) {
     this.mqHandler = mqHandler;
@@ -84,28 +85,36 @@ public class SocketClientImpl implements SocketClient {
 
   @Override
   public void sendMessage(CommandType commandType,String from, Contact contact) {
-    if (this.clientSocket != null) {
-      try {
-        if (clientSocket.isConnected()) {
-          PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-          MessageTransport messageTransport;
-          switch (commandType){
-            case SAVE_USER_DATA:
-              messageTransport = new MessageTransport(from,"otpService",commandType);
-              messageTransport.setData(new Gson().toJson(contact));
-              break;
-            case GENERATE_OTP:
-              messageTransport = new MessageTransport(from,"otpService",commandType);
-              break;
-            default:
-              throw new IllegalStateException("Unexpected value: " + commandType);
-          }
-          String json = new Gson().toJson(messageTransport);
-          out.println(json);
+    logger.debug("execute sendMessage commandType:{} from:{}, contact:{}", commandType,from,contact);
+    executorSender.execute(() -> {
+      if (this.clientSocket != null) {
+        try {
+          if (clientSocket.isConnected()) {
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            MessageTransport messageTransport;
+            switch (commandType) {
+              case SAVE_USER_DATA:
+                messageTransport = new MessageTransport(from, "otpService", commandType);
+                messageTransport.setData(new Gson().toJson(contact));
+                break;
+              case GENERATE_OTP:
+                messageTransport = new MessageTransport(from, "otpService", commandType);
+                break;
+              default: {
+                 logger.error("Unexpected value: " + commandType);
+                throw new IllegalStateException("Unexpected value: " + commandType);
+              }
+            }
+            String json = new Gson().toJson(messageTransport);
+            logger.debug("send json: {} to socket server",json);
+            out.println(json);
+          } else logger.error("Socket server not found");
+        } catch (Exception ex) {
+          logger.error(ex.getMessage(), ex);
         }
-      } catch (Exception ex) {
-        logger.error(ex.getMessage(), ex);
-      }
-    } else logger.error("Socket client not registered");
+      } else logger.error("Socket client not registered");
+    });
   }
+
+
 }

@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 public class OtpServiceImplTest {
 
     private final Logger logger = LoggerFactory.getLogger(OtpServiceImplTest.class);
-    private final OtpService otpService = new OtpServiceImpl(1);
+    private final OtpService otpService = new OtpServiceImpl(5,TimeUnit.SECONDS);
 
     @Test
     public void generateOTP() {
@@ -39,7 +39,7 @@ public class OtpServiceImplTest {
         String s = "Hello";
         long otp = otpService.generateOTP(s.hashCode());
         logger.info("generated OTP: {}", otp);
-        Thread.sleep(TimeUnit.SECONDS.toMillis(61));
+        Thread.sleep(TimeUnit.SECONDS.toMillis(6));
         assertFalse(otpService.checkOtp(otp));
     }
 

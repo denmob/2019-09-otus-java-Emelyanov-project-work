@@ -52,7 +52,7 @@ public class MqServiceImpl implements MqService {
                 if (data != null) {
                     MessageTransport messageTransport = SerializeMessageTransport.deserializeByteArrayToMessageTransport(data);
                     if (messageTransport != null) {
-                        msgHandler.submit(() -> {
+                        msgHandler.execute(() -> {
                             logger.debug("msgHandler submit message: {} ", messageTransport);
                             handleMessage(messageTransport);
                         });
@@ -80,9 +80,10 @@ public class MqServiceImpl implements MqService {
                     message.setText(responseMessage);
                     break;
                 default:
+                    logger.error("Unexpected value: " + messageTransport.getCommand());
                     throw new IllegalStateException("Unexpected value: " + messageTransport.getCommand());
             }
-            telegramController.sendToUser(message);
+                telegramController.sendToUser(message);
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }

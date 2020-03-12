@@ -16,11 +16,11 @@ public class OtpServiceImpl implements OtpService{
 
     private LoadingCache<Integer, Long> otpCache;
 
-    public OtpServiceImpl(Integer expireMinutes){
+    public OtpServiceImpl(long duration, TimeUnit unit){
         super();
-        logger.info("expireMinutes: {}",expireMinutes);
+        logger.info("duration:{} unit:{}",duration,unit);
         otpCache = CacheBuilder.newBuilder().
-                expireAfterWrite(expireMinutes, TimeUnit.MINUTES).build(new CacheLoader<>() {
+                expireAfterWrite(duration, unit).build(new CacheLoader<>() {
             @Override
             public Long load(Integer integer){
                 return 0L;
