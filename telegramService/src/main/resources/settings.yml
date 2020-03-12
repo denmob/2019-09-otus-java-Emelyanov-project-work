@@ -11,8 +11,8 @@ db:
             phone3: 80937188891
 
 telegram:
-    botToken: 947622852:AAGhKz4UeSKubfTR0HCbW-cGwXqDjYKirT0
-    botName: build_otp_bot
+    botToken:
+    botName:
     registrationChatMessage: Hello! Please send your contact for registration to service
     registrationButtonText: Send contact data
     generateOTPChatMessage: Press a button to generate the next OTP
