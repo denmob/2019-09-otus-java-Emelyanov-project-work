@@ -39,19 +39,19 @@ public class SocketClientConfig {
 
     @Bean
     public MqHandler mqHandler() {
-        return new MqHandlerImpl(rabbitMqHost,rabbitMqPort,queueDataName);
+        return new MqHandlerImpl(rabbitMqHost, rabbitMqPort, queueDataName);
     }
 
     @Bean
     public SocketClient socketClient(MqHandler mqHandler) {
-        SocketClient socketClient = new SocketClientImpl(socketHost,socketPort,mqHandler);
+        SocketClient socketClient = new SocketClientImpl(socketHost, socketPort, mqHandler);
         socketClient.start();
         return socketClient;
     }
 
     @Bean
     public MqService mqService(MqHandler mqHandler, TelegramController telegramController) {
-        MqService mqService = new MqServiceImpl(mqHandler,telegramController,httpHost,httpPort);
+        MqService mqService = new MqServiceImpl(mqHandler, telegramController, httpHost, httpPort);
         mqService.start();
         return mqService;
     }

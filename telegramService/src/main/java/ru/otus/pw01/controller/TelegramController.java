@@ -98,7 +98,7 @@ public class TelegramController extends TelegramLongPollingBot {
     }
 
     /**
-     * Deletes keyboard witch all buttons
+     * Delete keyboard with all buttons
      *
      * @param chatId      - target chat id
      * @param messageText - message text

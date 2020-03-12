@@ -9,6 +9,7 @@ import ru.otus.pw.library.misc.SerializeMessageTransport;
 import ru.otus.pw.library.mq.MqHandler;
 import ru.otus.pw.library.service.MqService;
 import ru.otus.pw01.controller.TelegramController;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -25,9 +26,9 @@ public class MqServiceImpl implements MqService {
     private TelegramController telegramController;
     private final AtomicBoolean runFlag = new AtomicBoolean(true);
     private final ExecutorService msgProcessor = Executors.newScheduledThreadPool(MSG_HANDLER_THREAD_LIMIT);
-    private final ExecutorService msgHandler =  Executors.newScheduledThreadPool(MSG_HANDLER_THREAD_LIMIT);
+    private final ExecutorService msgHandler = Executors.newScheduledThreadPool(MSG_HANDLER_THREAD_LIMIT);
 
-    public MqServiceImpl(MqHandler mqHandler,TelegramController telegramController, String httpHost, int httpPort) {
+    public MqServiceImpl(MqHandler mqHandler, TelegramController telegramController, String httpHost, int httpPort) {
         this.mqHandler = mqHandler;
         this.httpHost = httpHost;
         this.httpPort = httpPort;
@@ -48,16 +49,16 @@ public class MqServiceImpl implements MqService {
     private void msgProcessor() {
         logger.debug("Start msgProcessor");
         while (runFlag.get()) {
-                byte[] data = mqHandler.getFromQueue();
-                if (data != null) {
-                    MessageTransport messageTransport = SerializeMessageTransport.deserializeByteArrayToMessageTransport(data);
-                    if (messageTransport != null) {
-                        msgHandler.execute(() -> {
-                            logger.debug("msgHandler submit message: {} ", messageTransport);
-                            handleMessage(messageTransport);
-                        });
-                    }
+            byte[] data = mqHandler.getFromQueue();
+            if (data != null) {
+                MessageTransport messageTransport = SerializeMessageTransport.deserializeByteArrayToMessageTransport(data);
+                if (messageTransport != null) {
+                    msgHandler.execute(() -> {
+                        logger.debug("msgHandler submit message: {} ", messageTransport);
+                        handleMessage(messageTransport);
+                    });
                 }
+            }
         }
     }
 
@@ -66,24 +67,24 @@ public class MqServiceImpl implements MqService {
         try {
             SendMessage message = new SendMessage();
             message.setChatId(messageTransport.getTo());
-            switch (messageTransport.getCommand()){
+            switch (messageTransport.getCommand()) {
                 case SUCCESS_GENERATE_OTP:
-                    long otp = new Gson().fromJson((String) messageTransport.getData(),Long.class);
-                    String url = String.format("http://%s:%s/login?otpValue=%S",httpHost,httpPort,otp);
+                    long otp = new Gson().fromJson((String) messageTransport.getData(), Long.class);
+                    String url = String.format("http://%s:%s/login?otpValue=%S", httpHost, httpPort, otp);
                     message.setText(url);
                     break;
                 case SUCCESS_SAVE_USER_DATA:
-                    logger.debug("handleMessage messageTransport with {}",SUCCESS_SAVE_USER_DATA.getValue());
+                    logger.debug("handleMessage messageTransport with {}", SUCCESS_SAVE_USER_DATA.getValue());
                     break;
                 case RESPONSE_WITH_ERROR:
-                    String responseMessage = new Gson().fromJson((String) messageTransport.getData(),String.class);
+                    String responseMessage = new Gson().fromJson((String) messageTransport.getData(), String.class);
                     message.setText(responseMessage);
                     break;
                 default:
-                    logger.error("Unexpected value: " + messageTransport.getCommand());
+                    logger.error("Unexpected value: {}", messageTransport.getCommand());
                     throw new IllegalStateException("Unexpected value: " + messageTransport.getCommand());
             }
-                telegramController.sendToUser(message);
+            telegramController.sendToUser(message);
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }

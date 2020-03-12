@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.otus.pw01.controller.RegTelegramApi;
 import ru.otus.pw01.model.TelegramUser;
@@ -27,6 +28,7 @@ public class TelegramUserServiceImplTest  extends RegTelegramApi {
 
     @Test
     @Order(1)
+ //   @DirtiesContext
     public void saveUserIfNotExist() {
         Assertions.assertThatCode(() -> {
             TelegramUser telegramUser = new TelegramUser();

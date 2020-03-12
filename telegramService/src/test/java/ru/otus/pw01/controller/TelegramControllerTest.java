@@ -22,7 +22,7 @@ import static org.mockito.BDDMockito.given;
 public class TelegramControllerTest  extends RegTelegramApi{
 
     private final  static long DEV_CHAT_ID = 475757602L;
-    private final static String DEV_ALLOW_USER_PHONE_NUMBER_SET = "80937188891";
+    private final static String DEV_ALLOW_USER_PHONE_NUMBER_SET = "380937188891";
 
     @Autowired
     private TelegramController telegramController;
@@ -86,6 +86,8 @@ public class TelegramControllerTest  extends RegTelegramApi{
             User user =   mock(User.class);
 
             given(contact.getPhoneNumber()).willReturn(DEV_ALLOW_USER_PHONE_NUMBER_SET);
+            given(contact.getFirstName()).willReturn("FirstName");
+            given(contact.getLastName()).willReturn("LastName");
             given(receivedMessage.getFrom()).willReturn(user);
             given(receivedMessage.getContact()).willReturn(contact);
             given(receivedMessage.getChatId()).willReturn(DEV_CHAT_ID);
