@@ -33,15 +33,19 @@ public class UserData implements Serializable {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
     public String getFirstName() {
         return firstName;
     }
+
     public String getLastName() {
         return lastName;
     }
+
     public Long getUserID() {
         return userID;
     }
@@ -61,7 +65,7 @@ public class UserData implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserData that = (UserData) o;
-        return  userID.equals(that.userID) &&
+        return userID.equals(that.userID) &&
                 firstName.equals(that.firstName) &&
                 lastName.equals(that.lastName) &&
                 phoneNumber.equals(that.phoneNumber);

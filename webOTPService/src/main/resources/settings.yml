@@ -3,7 +3,7 @@ db:
   mongoDBName: pw02
 
 runner:
-#  telegramServiceStartCommand: java -jar telegramService-1.0-SNAPSHOT.jar
+  #  telegramServiceStartCommand: java -jar telegramService-1.0-SNAPSHOT.jar
   telegramServiceStartCommand:
 
 connection:

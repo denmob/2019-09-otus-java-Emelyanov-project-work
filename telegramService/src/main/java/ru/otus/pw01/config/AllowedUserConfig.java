@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@ConfigurationProperties(prefix="db.user.allow")
+@ConfigurationProperties(prefix = "db.user.allow")
 @PropertySource("settings.yml")
 public class AllowedUserConfig {
 
@@ -31,18 +31,23 @@ public class AllowedUserConfig {
     public String getName1() {
         return name1;
     }
+
     public String getPhone1() {
         return phone1;
     }
+
     public String getName2() {
         return name2;
     }
+
     public String getPhone2() {
         return phone2;
     }
+
     public String getName3() {
         return name3;
     }
+
     public String getPhone3() {
         return phone3;
     }

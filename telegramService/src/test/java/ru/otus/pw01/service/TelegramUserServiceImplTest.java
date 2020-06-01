@@ -18,9 +18,9 @@ import static junit.framework.TestCase.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TelegramUserServiceImplTest  extends RegTelegramApi {
+public class TelegramUserServiceImplTest extends RegTelegramApi {
 
-    private final  static long DEV_CHAT_ID = 475757602L;
+    private final static long DEV_CHAT_ID = 475757602L;
     private final static String DEV_ALLOW_USER_PHONE_NUMBER_SET = "80937188891";
 
     @Autowired
@@ -28,7 +28,7 @@ public class TelegramUserServiceImplTest  extends RegTelegramApi {
 
     @Test
     @Order(1)
- //   @DirtiesContext
+    //   @DirtiesContext
     public void saveUserIfNotExist() {
         Assertions.assertThatCode(() -> {
             TelegramUser telegramUser = new TelegramUser();

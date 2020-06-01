@@ -23,7 +23,7 @@ public class AllowedUser {
         return "AllowedUser{" +
                 "id=" + id +
                 ", userName=" + userName +
-                ", phoneNumber='" + phoneNumber +'}';
+                ", phoneNumber='" + phoneNumber + '}';
     }
 
     @Override
@@ -31,7 +31,7 @@ public class AllowedUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AllowedUser that = (AllowedUser) o;
-        return  id.equals(that.id) &&
+        return id.equals(that.id) &&
                 userName.equals(that.userName) &&
                 phoneNumber.equals(that.phoneNumber);
     }

@@ -4,6 +4,7 @@ package ru.otus.pw.library.mq;
 import com.rabbitmq.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 public class MqHandlerImpl implements MqHandler {
@@ -15,7 +16,7 @@ public class MqHandlerImpl implements MqHandler {
     private boolean connectionToQueueAvailable = false;
     private AMQP.Queue.DeclareOk dok;
 
-    public MqHandlerImpl(String host,int port, String queueName) {
+    public MqHandlerImpl(String host, int port, String queueName) {
         try {
             this.queueName = queueName;
             ConnectionFactory factory = new ConnectionFactory();
@@ -23,7 +24,7 @@ public class MqHandlerImpl implements MqHandler {
             factory.setPort(port);
             Connection connection = factory.newConnection();
             channel = connection.createChannel();
-             dok = channel.queueDeclare(queueName, false, false, false, null);
+            dok = channel.queueDeclare(queueName, false, false, false, null);
             connectionToQueueAvailable = true;
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
@@ -57,6 +58,6 @@ public class MqHandlerImpl implements MqHandler {
     }
 
     public int getMessageCount() {
-            return dok.getMessageCount();
+        return dok.getMessageCount();
     }
 }

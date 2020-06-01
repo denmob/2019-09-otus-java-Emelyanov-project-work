@@ -13,12 +13,12 @@ public class TelegramService {
 
     private static Logger logger = LoggerFactory.getLogger(TelegramService.class);
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         ApiContextInitializer.init();
         try {
             SpringApplication.run(TelegramService.class, args);
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
     }
 }

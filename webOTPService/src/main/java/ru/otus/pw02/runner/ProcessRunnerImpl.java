@@ -2,6 +2,7 @@ package ru.otus.pw02.runner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 public class ProcessRunnerImpl implements ProcessRunner {
@@ -12,7 +13,7 @@ public class ProcessRunnerImpl implements ProcessRunner {
     @Override
     public void start(String command) throws IOException {
         process = runProcess(command);
-        logger.info("process info: {} isAlive:{}", process.info(), process.isAlive() );
+        logger.info("process info: {} isAlive:{}", process.info(), process.isAlive());
     }
 
     @Override
@@ -24,7 +25,7 @@ public class ProcessRunnerImpl implements ProcessRunner {
         ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
         processBuilder.redirectErrorStream(true);
         process = processBuilder.start();
-        logger.info("process info: {} isAlive:{}", process.info(), process.isAlive() );
+        logger.info("process info: {} isAlive:{}", process.info(), process.isAlive());
         return process;
     }
 }

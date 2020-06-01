@@ -24,6 +24,7 @@ public interface UserDataService {
 
     /**
      * Get all userData
+     *
      * @return list UserData
      */
     List<UserData> getAllUserData();

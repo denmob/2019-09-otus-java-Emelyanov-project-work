@@ -22,12 +22,10 @@ import ru.otus.pw01.service.AllowedUserService;
 import ru.otus.pw01.model.TelegramUser;
 import ru.otus.pw01.service.TelegramUserService;
 import ru.otus.pw01.sokets.SocketClient;
+
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Controller
 public class TelegramController extends TelegramLongPollingBot {
@@ -52,7 +50,7 @@ public class TelegramController extends TelegramLongPollingBot {
         try {
             telegramBotsApi.registerBot(this);
         } catch (TelegramApiException e) {
-            logger.error("registerBot TelegramApiException", e);
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -62,7 +60,7 @@ public class TelegramController extends TelegramLongPollingBot {
         String receivedMessageText = receivedMessage.getText();
         long chatId = receivedMessage.getChatId();
 
-        if (receivedMessageText != null) logger.debug("onUpdateReceived with: {}",receivedMessageText);
+        if (receivedMessageText != null) logger.debug("onUpdateReceived with: {}", receivedMessageText);
 
         if (receivedMessageText != null && receivedMessageText.equals(configTelegram.getRegistrationButtonText())) {
             registerUser(chatId);
@@ -72,7 +70,7 @@ public class TelegramController extends TelegramLongPollingBot {
         if (receivedMessageText != null && receivedMessageText.equals(configTelegram.getGenerateOTPButtonText())) {
             SendMessage message = new SendMessage(chatId, configTelegram.getMessageWaitOTP());
             sendToUser(message);
-            socketClient.sendMessage(CommandType.GENERATE_OTP,String.valueOf(chatId),null);
+            socketClient.sendMessage(CommandType.GENERATE_OTP, String.valueOf(chatId), null);
             return;
         }
 
@@ -81,15 +79,15 @@ public class TelegramController extends TelegramLongPollingBot {
             AllowedUser allowedUser = allowedUserService.findAllowedUserByPhoneNumber(contact.getPhoneNumber());
             if (allowedUser != null) {
                 processContact(contact, receivedMessage.getFrom());
-                socketClient.sendMessage(CommandType.SAVE_USER_DATA,String.valueOf(chatId),contact);
+                socketClient.sendMessage(CommandType.SAVE_USER_DATA, String.valueOf(chatId), contact);
                 generateOTP(chatId);
             } else {
-                hideKeyboardButtons(chatId,configTelegram.getMessageNotAllowedPhoneNumber());
+                hideKeyboardButtons(chatId, configTelegram.getMessageNotAllowedPhoneNumber());
             }
             return;
         }
 
-        TelegramUser  telegramUser = telegramUserService.findTelegramUserByUserID(Long.valueOf(receivedMessage.getFrom().getId()));
+        TelegramUser telegramUser = telegramUserService.findTelegramUserByUserID(Long.valueOf(receivedMessage.getFrom().getId()));
         if (telegramUser != null) {
             generateOTP(chatId);
         } else {
@@ -121,14 +119,14 @@ public class TelegramController extends TelegramLongPollingBot {
     }
 
     private void registerUser(long chatId) {
-        SendMessage message = new SendMessage(chatId,configTelegram.getRegistrationChatMessage() );
-        message.setReplyMarkup(prepareRegistrationButton(configTelegram.getRegistrationButtonText(),ButtonType.REQUEST_CONTACT));
+        SendMessage message = new SendMessage(chatId, configTelegram.getRegistrationChatMessage());
+        message.setReplyMarkup(prepareRegistrationButton(configTelegram.getRegistrationButtonText(), ButtonType.REQUEST_CONTACT));
         sendToUser(message);
     }
 
     private void generateOTP(long chatId) {
-        SendMessage message = new SendMessage(chatId,configTelegram.getGenerateOTPChatMessage() );
-        message.setReplyMarkup(prepareRegistrationButton(configTelegram.getGenerateOTPButtonText(),ButtonType.REQUEST_TEXT));
+        SendMessage message = new SendMessage(chatId, configTelegram.getGenerateOTPChatMessage());
+        message.setReplyMarkup(prepareRegistrationButton(configTelegram.getGenerateOTPButtonText(), ButtonType.REQUEST_TEXT));
         sendToUser(message);
     }
 
@@ -137,7 +135,7 @@ public class TelegramController extends TelegramLongPollingBot {
         keyboardMarkup.setResizeKeyboard(true);
         keyboardMarkup.setOneTimeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
-        keyboard.add(createKeyboardRow(buttonText,buttonType));
+        keyboard.add(createKeyboardRow(buttonText, buttonType));
         keyboardMarkup.setKeyboard(keyboard);
         return keyboardMarkup;
     }
@@ -145,7 +143,7 @@ public class TelegramController extends TelegramLongPollingBot {
     private KeyboardRow createKeyboardRow(String buttonText, ButtonType buttonType) {
         KeyboardRow row = new KeyboardRow();
         KeyboardButton keyboardButton;
-        switch (buttonType){
+        switch (buttonType) {
             case REQUEST_TEXT:
                 keyboardButton = new KeyboardButton(buttonText).setRequestContact(false);
                 break;
@@ -159,14 +157,14 @@ public class TelegramController extends TelegramLongPollingBot {
         return row;
     }
 
-    public void sendToUser(SendMessage message)  {
+    public void sendToUser(SendMessage message) {
         try {
-            if (message.getChatId() != null && message.getText()!=null) {
+            if (message.getChatId() != null && message.getText() != null) {
                 execute(message);
                 logger.debug("Sent message: {}", message);
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -176,8 +174,8 @@ public class TelegramController extends TelegramLongPollingBot {
      * @param contact - contact, that need to be saved
      * @param sender  - user's data, that sent this contact
      */
-    private void saveContact(Contact contact, User sender ) {
-       TelegramUser newUser = new TelegramUser();
+    private void saveContact(Contact contact, User sender) {
+        TelegramUser newUser = new TelegramUser();
         newUser.setUserId(Long.valueOf(contact.getUserID()));
         newUser.setFirstName(contact.getFirstName());
         newUser.setLastName(contact.getLastName());
@@ -195,9 +193,9 @@ public class TelegramController extends TelegramLongPollingBot {
      * @param sender  - sender
      */
     private void processContact(Contact contact, User sender) {
-       TelegramUser user = telegramUserService.findTelegramUserByPhoneNumber(contact.getPhoneNumber());
+        TelegramUser user = telegramUserService.findTelegramUserByPhoneNumber(contact.getPhoneNumber());
         if (user == null) {
-            saveContact(contact,sender);
+            saveContact(contact, sender);
         }
     }
 

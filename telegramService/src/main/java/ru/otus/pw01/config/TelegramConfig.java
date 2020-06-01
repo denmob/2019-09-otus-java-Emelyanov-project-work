@@ -45,18 +45,23 @@ public class TelegramConfig {
     public String getMessageWaitOTP() {
         return messageWaitOTP;
     }
+
     public String getMessageNotAllowedPhoneNumber() {
         return messageNotAllowedPhoneNumber;
     }
+
     public String getRegistrationChatMessage() {
         return registrationChatMessage;
     }
+
     public String getRegistrationButtonText() {
         return registrationButtonText;
     }
+
     public String getGenerateOTPChatMessage() {
         return generateOTPChatMessage;
     }
+
     public String getGenerateOTPButtonText() {
         return generateOTPButtonText;
     }

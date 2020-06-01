@@ -11,7 +11,7 @@ import ru.otus.pw02.service.OtpServiceImpl;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-@ConfigurationProperties(prefix="otp")
+@ConfigurationProperties(prefix = "otp")
 @PropertySource("settings.yml")
 public class OtpServiceConfig {
 

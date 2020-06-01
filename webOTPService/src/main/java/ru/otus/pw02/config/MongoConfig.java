@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 
 @Configuration
-@ConfigurationProperties(prefix="db")
+@ConfigurationProperties(prefix = "db")
 @PropertySource("settings.yml")
 public class MongoConfig extends AbstractMongoConfiguration {
 

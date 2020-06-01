@@ -32,19 +32,19 @@ public class SocketServerConfig {
 
     @Bean
     public MqHandler mqHandler() {
-        return new MqHandlerImpl(rabbitMqHost,rabbitMqPort,queueDataName);
+        return new MqHandlerImpl(rabbitMqHost, rabbitMqPort, queueDataName);
     }
 
     @Bean
     public SocketServer socketServer(MqHandler mqHandler) {
-        SocketServer server = new SocketServerImpl(socketPort,mqHandler);
+        SocketServer server = new SocketServerImpl(socketPort, mqHandler);
         server.start();
         return server;
     }
 
     @Bean
     public MqService mqService(SocketServer socketServer, MqHandler mqHandler, OtpService otpService, UserDataService userDataService) {
-        MqService mqService = new MqServiceImpl(socketServer,mqHandler,otpService,userDataService);
+        MqService mqService = new MqServiceImpl(socketServer, mqHandler, otpService, userDataService);
         mqService.start();
         return mqService;
     }

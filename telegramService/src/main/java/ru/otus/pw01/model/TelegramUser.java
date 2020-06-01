@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.Objects;
 
 @Document(collection = "telegram_user")
-public class TelegramUser  {
+public class TelegramUser {
 
     @Id
     private String id;
@@ -36,27 +36,35 @@ public class TelegramUser  {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
     public Long getUserId() {
         return userId;
     }
+
     public void setBot(Boolean bot) {
         isBot = bot;
     }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
     public void setLanguageCode(String languageCode) {
         this.languageCode = languageCode;
     }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
@@ -90,6 +98,6 @@ public class TelegramUser  {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id,userId, isBot, firstName, lastName,languageCode,phoneNumber);
+        return Objects.hash(id, userId, isBot, firstName, lastName, languageCode, phoneNumber);
     }
 }

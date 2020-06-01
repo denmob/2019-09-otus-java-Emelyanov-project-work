@@ -12,11 +12,11 @@ public class WebOtpService {
 
     private static Logger logger = LoggerFactory.getLogger(WebOtpService.class);
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         try {
             SpringApplication.run(WebOtpService.class, args);
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
     }
 

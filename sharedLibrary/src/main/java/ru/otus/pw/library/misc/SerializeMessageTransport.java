@@ -10,7 +10,8 @@ public class SerializeMessageTransport {
 
     private static Logger logger = LoggerFactory.getLogger(SerializeMessageTransport.class);
 
-    private SerializeMessageTransport() { }
+    private SerializeMessageTransport() {
+    }
 
     public static byte[] serializeMessageTransportToByteArray(MessageTransport messageTransport) {
         byte[] bytes = null;
@@ -24,7 +25,7 @@ public class SerializeMessageTransport {
             oos.close();
             return bytes;
         } catch (IOException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
         return bytes;
     }
@@ -35,9 +36,9 @@ public class SerializeMessageTransport {
             ObjectInputStream ois = new ObjectInputStream(bytesIn);
             Object obj = ois.readObject();
             ois.close();
-        return (MessageTransport) obj;
+            return (MessageTransport) obj;
         } catch (IOException | ClassNotFoundException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
         return null;
     }

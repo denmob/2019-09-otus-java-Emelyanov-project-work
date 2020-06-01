@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
-@ConfigurationProperties(prefix="db")
+@ConfigurationProperties(prefix = "db")
 @PropertySource("settings.yml")
 public class MongoConfig extends AbstractMongoConfiguration {
 
@@ -35,7 +35,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Bean("mongock-spring-boot")
     public Mongock mongock(MongoTemplate mongoTemplate) {
-        return new SpringMongockBuilder(mongoTemplate,  "ru.otus.pw01")
+        return new SpringMongockBuilder(mongoTemplate, "ru.otus.pw01")
                 .setLockQuickConfig()
                 .build();
     }

@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class SerializeMessageTransportJsonTest {
 
-    private static Logger logger = LoggerFactory.getLogger(SerializeMessageTransportByteTest.class);
+    private static Logger logger = LoggerFactory.getLogger(SerializeMessageTransportJsonTest.class);
 
     @Test
     void serializeToJson() {

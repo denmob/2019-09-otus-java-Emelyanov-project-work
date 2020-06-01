@@ -22,19 +22,19 @@ public class AllowedUserSets {
 
     private static AllowedUserConfig allowedUserConfig;
 
-    @ChangeSet(id= "withMongoDatabase01", order = "001", author = "Mongock")
+    @ChangeSet(id = "withMongoDatabase01", order = "001", author = "Mongock")
     public void changeSet1(MongoDatabase mongoDatabase) {
         mongoDatabase.getCollection(COLLECTION_NAME).insertOne(
                 createMongoDocument(allowedUserConfig.getName1(), allowedUserConfig.getPhone1()));
     }
 
-    @ChangeSet(id= "withMongoDatabase02", order = "002", author = "Mongock")
+    @ChangeSet(id = "withMongoDatabase02", order = "002", author = "Mongock")
     public void changeSet2(MongoDatabase mongoDatabase) {
         mongoDatabase.getCollection(COLLECTION_NAME).insertOne(
                 createMongoDocument(allowedUserConfig.getName2(), allowedUserConfig.getPhone2()));
     }
 
-    @ChangeSet(id= "withMongoDatabase03", order = "003", author = "Mongock")
+    @ChangeSet(id = "withMongoDatabase03", order = "003", author = "Mongock")
     public void changeSet3(MongoDatabase mongoDatabase) {
         mongoDatabase.getCollection(COLLECTION_NAME).insertOne(
                 createMongoDocument(allowedUserConfig.getName3(), allowedUserConfig.getPhone3()));

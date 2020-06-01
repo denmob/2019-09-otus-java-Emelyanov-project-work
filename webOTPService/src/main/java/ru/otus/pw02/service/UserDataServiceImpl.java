@@ -3,6 +3,7 @@ package ru.otus.pw02.service;
 import org.springframework.stereotype.Service;
 import ru.otus.pw.library.model.UserData;
 import ru.otus.pw02.repository.UserDataRepository;
+
 import java.util.List;
 
 @Service
@@ -40,6 +41,7 @@ public class UserDataServiceImpl implements UserDataService {
 
     /**
      * Get all UserData in DB
+     *
      * @return list UserData
      */
     @Override

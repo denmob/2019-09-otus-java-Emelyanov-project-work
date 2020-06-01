@@ -17,7 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-@ConfigurationProperties(prefix="runner")
+@ConfigurationProperties(prefix = "runner")
 @PropertySource("settings.yml")
 public class ProcessRunnerConfig {
 
@@ -43,7 +43,7 @@ public class ProcessRunnerConfig {
                 if (!command.isEmpty()) {
                     try {
                         new ProcessRunnerImpl().start(command);
-                        logger.debug("run command: {}",command);
+                        logger.debug("run command: {}", command);
                     } catch (IOException e) {
                         logger.error(e.getMessage(), e);
                     }
@@ -52,7 +52,7 @@ public class ProcessRunnerConfig {
         }
     }
 
-    private  List<String> getCommands() {
+    private List<String> getCommands() {
         List<String> commands = new ArrayList<>();
         commands.add(telegramServiceStartCommand);
         return commands;

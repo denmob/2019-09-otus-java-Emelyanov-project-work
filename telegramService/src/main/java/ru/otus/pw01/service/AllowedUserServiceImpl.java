@@ -5,7 +5,7 @@ import ru.otus.pw01.model.AllowedUser;
 import ru.otus.pw01.repository.AllowedUserRepository;
 
 @Service
-public class AllowedUserServiceImpl implements AllowedUserService{
+public class AllowedUserServiceImpl implements AllowedUserService {
 
     private final AllowedUserRepository allowedUserRepository;
 
