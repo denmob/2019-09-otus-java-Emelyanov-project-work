@@ -19,77 +19,77 @@
         </encoder>
     </appender>
 
-    <logger name="ru.otus.pw01.changesets.AllowedUserSets"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.changesets.AllowedUserSets"  level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.config.AllowedUserConfig"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.config.AllowedUserConfig"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.config.MongoConfig"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.config.MongoConfig"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.config.SocketClientConfig"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.config.SocketClientConfig"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.config.TelegramConfig"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.config.TelegramConfig"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.controller.TelegramController"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.controller.TelegramController"  level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.model.AllowedUser"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.model.AllowedUser"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.model.TelegramUser"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.model.TelegramUser"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.service.AllowedUserServiceImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.service.AllowedUserServiceImpl"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.service.MqServiceImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.service.MqServiceImpl"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.service.TelegramUserServiceImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.service.TelegramUserServiceImpl"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw01.sokets.SocketClientImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw01.sokets.SocketClientImpl"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw.library.mq.MqHandlerImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw.library.mq.MqHandlerImpl"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw.library.misc.SerializeMessageTransport"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw.library.misc.SerializeMessageTransport"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="org.springframework.*"  level="INFO,DEBUG,ERROR" >
+    <logger name="org.springframework"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>

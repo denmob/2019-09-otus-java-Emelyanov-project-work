@@ -19,67 +19,67 @@
         </encoder>
     </appender>
 
-    <logger name="ru.otus.pw02.config.MongoConfig"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw02.config.MongoConfig"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw02.config.OtpServiceConfig"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw02.config.OtpServiceConfig"  level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw02.config.ProcessRunnerConfig"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw02.config.ProcessRunnerConfig"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw02.config.SocketServerConfig"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw02.config.SocketServerConfig"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw02.controller.RestController"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw02.controller.RestController"  level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw02.runner.ProcessRunnerImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw02.runner.ProcessRunnerImpl"  level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw02.service.MqServiceImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw02.service.MqServiceImpl"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw02.service.OtpServiceImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw02.service.OtpServiceImpl"  level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw02.service.UserDataServiceImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw02.service.UserDataServiceImpl"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw02.sockets.SocketServerImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw02.sockets.SocketServerImpl"  level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw.library.mq.MqHandlerImpl"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw.library.mq.MqHandlerImpl"  level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="ru.otus.pw.library.misc.SerializeMessageTransport"  level="INFO,DEBUG,ERROR" >
+    <logger name="ru.otus.pw.library.misc.SerializeMessageTransport"   level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
 
-    <logger name="org.springframework.*"  level="INFO,DEBUG,ERROR" >
+    <logger name="org.springframework.*"  level="INFO" >
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
     </logger>
