@@ -40,7 +40,7 @@
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.26</slf4j.version>
         <spring-data-mongodb.version>2.0.5.RELEASE</spring-data-mongodb.version>
-        <mongo-java-driver.version>3.12.1</mongo-java-driver.version>
+        <mongo-java-driver.version>3.12.8</mongo-java-driver.version>
     </properties>
 
     <dependencies>
